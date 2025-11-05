@@ -5,8 +5,11 @@ package install
 
 import (
 	"fmt"
-	"github.com/xmidt-org/xmidt-event-streams/internal/metrics"
 	"os"
+
+	"github.com/xmidt-org/xmidt-event-streams/filter"
+	"github.com/xmidt-org/xmidt-event-streams/internal/metrics"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/alecthomas/kong"
 	"github.com/goschtalt/goschtalt"
@@ -84,7 +87,7 @@ func provideAppOptions(args []string) fx.Option {
 			goschtalt.UnmarshalFunc[touchstone.Config]("prometheus"),
 			goschtalt.UnmarshalFunc[touchhttp.Config]("prometheus_handler"),
 			goschtalt.UnmarshalFunc[RequestHandler]("request_handler"),
-			goschtalt.UnmarshalFunc[FilterManager]("filter_manager"),
+			goschtalt.UnmarshalFunc[filter.FilterManagerConfig]("filter_manager"),
 			fx.Annotated{
 				Name:   "servers.health.config",
 				Target: goschtalt.UnmarshalFunc[arrangehttp.ServerConfig]("servers.health.http"),
@@ -121,9 +124,9 @@ func provideAppOptions(args []string) fx.Option {
 		arrangehttp.ProvideServer("servers.primary"),
 		arrangehttp.ProvideServer("servers.alternate"),
 
-		FilterModule,
-		QueueModule,
-		SenderModule,
+		filter.FilterModule,
+		filter.QueueModule,
+		sender.SenderModule,
 		HandlerModule,
 		EventHandlerModule,
 	)

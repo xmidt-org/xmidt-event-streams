@@ -11,3 +11,4 @@ output.txt
 lint.sh
 test.sh
 eventstream
+*.disabled

@@ -35,7 +35,7 @@ type Config struct {
 	Routes            Routes
 	RequestHandler    RequestHandler
 	Auth              Auth
-	FilterManager     FilterManager
+	FilterManager     filter.FilterManagerConfig
 }
 
 type Servers struct {
@@ -88,14 +88,6 @@ type Auth struct {
 
 type RequestHandler struct {
 	MaxOutstanding int32
-}
-
-type FilterManager struct {
-	DeliveryRetries   int
-	Filters           []filter.FilterConfig
-	DefaultQueueSize  int
-	DefaultBatchSize  int
-	DefaultMaxWorkers int
 }
 
 type Filters struct {
@@ -233,7 +225,7 @@ var defaultConfig = Config{
 			ServiceCapabilities: []string{"eventstream:write"},
 		},
 	},
-	FilterManager: FilterManager{
+	FilterManager: filter.FilterManagerConfig{
 		DeliveryRetries:   3,
 		DefaultQueueSize:  1000,
 		DefaultBatchSize:  100,

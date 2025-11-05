@@ -1,10 +1,9 @@
 // SPDX-FileCopyrightText: 2017 Comcast Cable Communications Management, LLC
 // SPDX-License-Identifier: Apache-2.0
 
-package install
+package filter
 
 import (
-	"github.com/xmidt-org/xmidt-event-streams/filter"
 	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 
 	"github.com/fogfish/opts"
@@ -30,7 +29,7 @@ type QueueIn struct {
 
 type QueueOut struct {
 	fx.Out
-	QueueProvider filter.QueueProvider
+	QueueProvider QueueProvider
 }
 
 var QueueModule = fx.Module("queue",
@@ -46,13 +45,13 @@ var QueueModule = fx.Module("queue",
 		}),
 	fx.Provide(
 		func(in QueueIn) (QueueOut, error) {
-			var opts []opts.Option[filter.QueueFactory]
+			var opts []opts.Option[QueueFactory]
 			opts = append(opts,
-				filter.WithQueueLogger(in.Logger),
-				filter.WithQueueTelemetry(in.QueueTelemetry),
+				WithQueueLogger(in.Logger),
+				WithQueueTelemetry(in.QueueTelemetry),
 			)
 
-			queueProvider, err := filter.NewQueueFactory(opts)
+			queueProvider, err := NewQueueFactory(opts)
 
 			return QueueOut{
 				QueueProvider: queueProvider}, err
