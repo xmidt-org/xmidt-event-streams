@@ -18,7 +18,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/stretchr/testify v1.11.1
 	github.com/xmidt-org/arrange v0.5.1
-	github.com/xmidt-org/httpaux v0.4.1
+	github.com/xmidt-org/httpaux v0.4.2
 	github.com/xmidt-org/idock v0.6.21
 	github.com/xmidt-org/retry v0.0.4
 	github.com/xmidt-org/wrp-go/v3 v3.7.0

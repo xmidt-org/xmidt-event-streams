@@ -157,8 +157,8 @@ github.com/xmidt-org/bascule v1.1.0 h1:IzdpDQ6HIKaVkQNvbLdmfv7BAmk15SnAJUPyEAVg/
 github.com/xmidt-org/bascule v1.1.0/go.mod h1:9pJ2rCAVNSANd3C276SuJEFwXIjZ8xofHV7LYh2ylWs=
 github.com/xmidt-org/candlelight v0.2.1 h1:vbstNO5Jz8EWbkuZtHCA8HV6ngFwp4IJgfiCW4vKM3c=
 github.com/xmidt-org/candlelight v0.2.1/go.mod h1:lA3d2jFvE3/xv0huXmB2yqiCoKxIBGUJkm3d8lvpU+k=
-github.com/xmidt-org/httpaux v0.4.1 h1:hvI4lZ7RacQRA/jMqUgwEQGcYm85125P4s7Y1imn6KY=
-github.com/xmidt-org/httpaux v0.4.1/go.mod h1:tZJ+SBoGNCxDOLopuSqrxaCkIVAQ+aPjNRf2XfMVwJA=
+github.com/xmidt-org/httpaux v0.4.2 h1:O6KTPy9Dtx6m5Ezb0nCQeAZWvBDgZvx82P16FSNauIE=
+github.com/xmidt-org/httpaux v0.4.2/go.mod h1:tZJ+SBoGNCxDOLopuSqrxaCkIVAQ+aPjNRf2XfMVwJA=
 github.com/xmidt-org/idock v0.6.21 h1:mVFp9McqXXPtn4aY6pv0Wgn5ZgfKmPdB7G93QVm1s38=
 github.com/xmidt-org/idock v0.6.21/go.mod h1:0J7QZur9i3xEVv+c4lqVdbba+nuZk3MPs0sCRU7B2E8=
 github.com/xmidt-org/retry v0.0.4 h1:GUnMqjNUm2W0qfjmXS99keQ4qvyFsjh+HC66NXqLQfU=
