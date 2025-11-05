@@ -4,7 +4,7 @@
 package filter
 
 import (
-	"eventstream/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 	"testing"
 
 	"github.com/fogfish/opts"

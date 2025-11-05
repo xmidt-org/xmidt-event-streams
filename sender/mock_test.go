@@ -4,7 +4,7 @@
 package sender
 
 import (
-	"eventstream/internal/kinesis"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	awsKinesis "github.com/aws/aws-sdk-go-v2/service/kinesis"
 	"github.com/fogfish/opts"

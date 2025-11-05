@@ -5,8 +5,8 @@ package filter
 
 import (
 	"errors"
-	"eventstream/internal/queue"
-	"eventstream/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/xmidt-org/wrp-go/v3"
 	"go.uber.org/zap"

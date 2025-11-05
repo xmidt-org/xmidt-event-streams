@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"eventstream/internal/auth"
-	"eventstream/internal/event"
+	"github.com/xmidt-org/xmidt-event-streams/internal/auth"
+	"github.com/xmidt-org/xmidt-event-streams/internal/event"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/xmidt-org/arrange/arrangehttp"

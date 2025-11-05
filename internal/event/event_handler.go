@@ -7,7 +7,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"eventstream/filter"
+	"github.com/xmidt-org/xmidt-event-streams/filter"
 
 	"github.com/xmidt-org/wrp-go/v3"
 )

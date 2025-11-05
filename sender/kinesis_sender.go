@@ -6,8 +6,8 @@ package sender
 import (
 	"context"
 	"encoding/json"
-	"eventstream/internal/kinesis"
 	"fmt"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"time"
 
 	"github.com/fogfish/opts"

@@ -8,7 +8,7 @@ import (
 	"errors"
 	"testing"
 
-	"eventstream/internal/kinesis"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"

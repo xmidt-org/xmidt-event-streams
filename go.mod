@@ -1,4 +1,4 @@
-module eventstream
+module github.com/xmidt-org/xmidt-event-streams
 
 go 1.24.2
 

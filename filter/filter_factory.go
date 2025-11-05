@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/sync/semaphore"
 
-	"eventstream/sender"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 )
 
 // BaseFilterFactory is a configurable factory for BaseFilter objects.

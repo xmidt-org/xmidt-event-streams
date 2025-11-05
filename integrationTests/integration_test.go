@@ -26,7 +26,7 @@ import (
 
 	"github.com/xmidt-org/wrp-go/v3"
 
-	"eventstream/internal/kinesis"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

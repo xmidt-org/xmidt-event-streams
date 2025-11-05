@@ -10,10 +10,9 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/sync/semaphore"
 
-	"eventstream/internal/queue"
-	"eventstream/sender"
-
 	"github.com/xmidt-org/wrp-go/v3"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 )
 
 type Filter interface {

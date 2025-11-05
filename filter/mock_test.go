@@ -6,8 +6,8 @@ package filter
 import (
 	"context"
 
-	"eventstream/internal/queue"
-	"eventstream/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	kit "github.com/go-kit/kit/metrics"
 	"github.com/stretchr/testify/mock"

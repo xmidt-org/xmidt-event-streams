@@ -4,8 +4,8 @@
 package install
 
 import (
-	"eventstream/filter"
-	"eventstream/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/filter"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 
 	"github.com/fogfish/opts"
 	kit "github.com/go-kit/kit/metrics"

@@ -10,8 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"eventstream/internal/log"
-	"eventstream/internal/mytime"
+	"github.com/xmidt-org/xmidt-event-streams/internal/log"
+	"github.com/xmidt-org/xmidt-event-streams/internal/mytime"
 
 	kit "github.com/go-kit/kit/metrics"
 	"go.uber.org/zap"

@@ -4,9 +4,9 @@
 package install
 
 import (
-	"eventstream/filter"
-	"eventstream/internal/event"
 	"fmt"
+	"github.com/xmidt-org/xmidt-event-streams/filter"
+	"github.com/xmidt-org/xmidt-event-streams/internal/event"
 
 	"go.uber.org/fx"
 	"go.uber.org/zap"

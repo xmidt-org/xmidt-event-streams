@@ -4,8 +4,8 @@
 package sender
 
 import (
-	"eventstream/internal/kinesis"
 	"fmt"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"strings"
 
 	"github.com/fogfish/opts"

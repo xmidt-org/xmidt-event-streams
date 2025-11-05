@@ -6,8 +6,8 @@ package integrationTests
 import (
 	"context"
 	"encoding/json"
-	"eventstream/internal/kinesis"
 	"fmt"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"time"
 
 	"github.com/xmidt-org/wrp-go/v3"

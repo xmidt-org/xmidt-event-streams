@@ -13,7 +13,7 @@ import (
 
 	"github.com/xmidt-org/idock"
 
-	"eventstream/internal/install"
+	"github.com/xmidt-org/xmidt-event-streams/internal/install"
 )
 
 func TestMain(m *testing.M) {

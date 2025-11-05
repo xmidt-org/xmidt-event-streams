@@ -7,7 +7,7 @@ import (
 	"errors"
 	"testing"
 
-	"eventstream/sender"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"

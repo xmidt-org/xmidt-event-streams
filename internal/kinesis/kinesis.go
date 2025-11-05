@@ -16,8 +16,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
 	"github.com/aws/aws-sdk-go-v2/service/kinesis/types"
 
-	"eventstream/internal/batch" // Ensure this package does not import `kinesis`
-	"eventstream/internal/log"   // Ensure this package does not import `kinesis`
+	"github.com/xmidt-org/xmidt-event-streams/internal/batch"
+	"github.com/xmidt-org/xmidt-event-streams/internal/log"
 
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 	"github.com/fogfish/opts"

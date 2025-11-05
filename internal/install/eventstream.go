@@ -4,8 +4,8 @@
 package install
 
 import (
-	"eventstream/internal/metrics"
 	"fmt"
+	"github.com/xmidt-org/xmidt-event-streams/internal/metrics"
 	"os"
 
 	"github.com/alecthomas/kong"

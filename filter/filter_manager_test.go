@@ -16,7 +16,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest"
 
-	"eventstream/sender"
+	"github.com/xmidt-org/xmidt-event-streams/sender"
 )
 
 // FilterManagerTestSuite contains tests for FilterManager functionality

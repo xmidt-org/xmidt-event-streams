@@ -4,7 +4,7 @@
 package install
 
 import (
-	"eventstream/internal/auth"
+	"github.com/xmidt-org/xmidt-event-streams/internal/auth"
 
 	"github.com/fogfish/opts"
 	"go.uber.org/fx"
