@@ -14,11 +14,11 @@ import (
 
 type QueueTelemetryIn struct {
 	fx.In
-	QueuedItems  kit.Gauge     `name:"queue_waiting_events"`
-	DroppedItems kit.Counter   `name:"queue_dropped_events"`
-	BatchSize    kit.Gauge     `name:"queue_batch_size"`
-	SubmitErrors kit.Counter   `name:"queue_submit_errors"`
-	CallDuration kit.Histogram `name:"queue_submit_duration"`
+	QueuedItems  kit.Gauge     `name:"xmidt_event_streams_queue_waiting_events"`
+	DroppedItems kit.Counter   `name:"xmidt_event_streams_queue_dropped_events"`
+	BatchSize    kit.Gauge     `name:"xmidt_event_streams_queue_batch_size"`
+	SubmitErrors kit.Counter   `name:"xmidt_event_streams_queue_submit_errors"`
+	CallDuration kit.Histogram `name:"xmidt_event_streams_queue_submit_duration"`
 }
 
 type QueueIn struct {

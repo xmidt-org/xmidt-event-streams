@@ -16,12 +16,12 @@ import (
 
 type FilterTelemetryIn struct {
 	fx.In
-	DroppedMessage kit.Counter `name:"dropped_message_count"`
+	DroppedMessage kit.Counter `name:"xmidt_event_streams_dropped_message_count"`
 }
 
 type FilterManagerTelemetryIn struct {
 	fx.In
-	EventType kit.Counter `name:"event_type_count"`
+	EventType kit.Counter `name:"xmidt_event_streams_event_type_count"`
 }
 
 type FilterManagerConfig struct {
