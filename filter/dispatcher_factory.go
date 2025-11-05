@@ -88,7 +88,7 @@ func (df *DispatcherFactory) GetDispatcher(f *BaseFilter, dest sender.DestType, 
 	senders := make([]sender.Sender, 0, len(streams))
 	for _, stream := range streams {
 
-		sender, err := df.senderProvider.GetSender(df.retries, dest, stream.Config)
+		sender, err := df.senderProvider.GetSender(df.retries, dest, stream.GetConfigMap())
 
 		if err != nil {
 			return nil, fmt.Errorf("error getting sender for dest type %v: %w", dest, err)

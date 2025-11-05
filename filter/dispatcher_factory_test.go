@@ -42,16 +42,16 @@ func (suite *DispatcherFactoryTestSuite) createTestStreams() []Stream {
 	return []Stream{
 		{
 			StreamName: "test-stream-1",
-			Config: map[string]string{
-				"region": "us-west-2",
-				"role":   "test-role",
+			ConfigItems: []ConfigItem{
+				{Key: "region", Value: "us-west-2"},
+				{Key: "role", Value: "test-role"},
 			},
 		},
 		{
 			StreamName: "test-stream-2",
-			Config: map[string]string{
-				"region": "us-east-1",
-				"role":   "test-role-2",
+			ConfigItems: []ConfigItem{
+				{Key: "region", Value: "us-east-1"},
+				{Key: "role", Value: "test-role-2"},
 			},
 		},
 	}
@@ -161,7 +161,7 @@ func (suite *DispatcherFactoryTestSuite) TestGetDispatcher_Success() {
 		destType := sender.Kinesis
 
 		// Setup sender provider expectation
-		mockSenderProvider.On("GetSender", 3, destType, streams[0].Config).
+		mockSenderProvider.On("GetSender", 3, destType, streams[0].GetConfigMap()).
 			Return(mockSender1, nil).Once()
 
 		// Setup queue provider expectation
@@ -222,9 +222,9 @@ func (suite *DispatcherFactoryTestSuite) TestGetDispatcher_Success() {
 		destType := sender.Kinesis
 
 		// Setup sender provider expectations
-		mockSenderProvider.On("GetSender", 3, destType, streams[0].Config).
+		mockSenderProvider.On("GetSender", 3, destType, streams[0].GetConfigMap()).
 			Return(mockSender1, nil).Once()
-		mockSenderProvider.On("GetSender", 3, destType, streams[1].Config).
+		mockSenderProvider.On("GetSender", 3, destType, streams[1].GetConfigMap()).
 			Return(mockSender2, nil).Once()
 
 		// Setup queue provider expectation
@@ -346,7 +346,7 @@ func (suite *DispatcherFactoryTestSuite) TestGetDispatcher_SenderError() {
 		destType := sender.Kinesis
 
 		// Setup sender provider to return error
-		mockSenderProvider.On("GetSender", 3, destType, streams[0].Config).
+		mockSenderProvider.On("GetSender", 3, destType, streams[0].GetConfigMap()).
 			Return(nil, errors.New("sender creation failed")).Once()
 
 		// Execute

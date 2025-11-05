@@ -234,13 +234,13 @@ var defaultConfig = Config{
 			{
 				Stream: filter.Stream{
 					StreamName: "comcast-cl.device-status.local",
-					Config: map[string]string{
-						sender.Endpoint:     "http://localhost:4567",
-						sender.Region:       "local",
-						sender.AccessKey:    "accessKey",
-						sender.SecretKey:    "secretKey",
-						sender.SessionToken: "sessionToken",
-						sender.Version:      "1.0",
+					ConfigItems: []filter.ConfigItem{
+						{Key: sender.Endpoint, Value: "http://localhost:4567"},
+						{Key: sender.Region, Value: "local"},
+						{Key: sender.AccessKey, Value: "accessKey"},
+						{Key: sender.SecretKey, Value: "secretKey"},
+						{Key: sender.SessionToken, Value: "sessionToken"},
+						{Key: sender.Version, Value: "1.0"},
 					},
 				},
 				Events:        []string{"device-status.*"},
@@ -253,3 +253,4 @@ var defaultConfig = Config{
 		},
 	},
 }
+

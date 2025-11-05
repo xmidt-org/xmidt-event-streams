@@ -106,7 +106,7 @@ func (suite *FilterManagerTestSuite) TestNew_Success() {
 					{
 						Stream: Stream{
 							StreamName: "test-stream",
-							Config:     map[string]string{"key": "value"},
+							ConfigItems:     []ConfigItem{{Key: "key", Value: "value"}},
 						},
 						Events: []string{"event1"},
 						Metadata: Metadata{
@@ -255,7 +255,7 @@ func (suite *FilterManagerTestSuite) TestLoadFilters() {
 				{
 					Stream: Stream{
 						StreamName: "test-stream-1",
-						Config:     map[string]string{"key": "value"},
+						ConfigItems: []ConfigItem{{Key: "key", Value: "value"}},
 					},
 					Events:   []string{"event-.*"},
 					DestType: "kinesis",
@@ -266,7 +266,7 @@ func (suite *FilterManagerTestSuite) TestLoadFilters() {
 				{
 					Stream: Stream{
 						StreamName: "test-stream-2",
-						Config:     map[string]string{},
+						ConfigItems: []ConfigItem{},
 					},
 					Events:   []string{"test-event"},
 					DestType: "kinesis",

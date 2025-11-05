@@ -76,7 +76,7 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{"key": "value"},
+					ConfigItems:     []ConfigItem{{Key: "key", Value: "value"}},
 				},
 				Events:   []string{"device-status", ".*"},
 				DestType: "kinesis",
@@ -94,7 +94,7 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream-2",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"event-.*"},
 				DestType:   "kinesis",
@@ -115,16 +115,16 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "primary-stream",
-					Config:     map[string]string{"primary": "true"},
+					ConfigItems: []ConfigItem{{Key: "primary", Value: "true"}},
 				},
 				AltStreams: []Stream{
 					{
 						StreamName: "alt-stream-1",
-						Config:     map[string]string{"alt": "true"},
+						ConfigItems: []ConfigItem{{Key: "alt", Value: "true"}},
 					},
 					{
 						StreamName: "alt-stream-2",
-						Config:     map[string]string{"backup": "true"},
+						ConfigItems: []ConfigItem{{Key: "backup", Value: "true"}},
 					},
 				},
 				Events:   []string{"test-event"},
@@ -143,7 +143,7 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "match-all-stream",
-					Config:     map[string]string{},
+					ConfigItems:     []ConfigItem{},
 				},
 				Events:   []string{".*"},
 				DestType: "kinesis",
@@ -218,7 +218,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
 				DestType: "invalid-dest-type",
@@ -235,7 +235,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
 				DestType: "kinesis",
@@ -254,7 +254,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{}, // Empty events should cause error
 				DestType: "kinesis",
@@ -274,7 +274,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"[invalid-regex"},
 				DestType: "kinesis",
@@ -294,7 +294,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
 				DestType: "kinesis",
@@ -341,7 +341,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
 				DestType:   "kinesis",
@@ -362,7 +362,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
 				DestType:   "kinesis",
@@ -383,7 +383,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			config: FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
 				DestType:   "kinesis",
@@ -458,7 +458,7 @@ func (suite *FilterFactoryTestSuite) TestNew_RegexMatcherHandling() {
 			config := FilterConfig{
 				Stream: Stream{
 					StreamName: "test-stream",
-					Config:     map[string]string{},
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
 				DestType: "kinesis",
@@ -504,7 +504,7 @@ func (suite *FilterFactoryTestSuite) TestNew_StreamHandling() {
 			name: "primary_stream_only",
 			primaryStream: Stream{
 				StreamName: "primary-only",
-				Config:     map[string]string{"type": "primary"},
+				ConfigItems: []ConfigItem{{Key: "type", Value: "primary"}},
 			},
 			altStreams:  []Stream{},
 			description: "Primary stream only should work",
@@ -513,16 +513,16 @@ func (suite *FilterFactoryTestSuite) TestNew_StreamHandling() {
 			name: "primary_with_multiple_alt_streams",
 			primaryStream: Stream{
 				StreamName: "primary",
-				Config:     map[string]string{"type": "primary"},
+				ConfigItems: []ConfigItem{{Key: "type", Value: "primary"}},
 			},
 			altStreams: []Stream{
 				{
 					StreamName: "alt-1",
-					Config:     map[string]string{"type": "alt", "priority": "1"},
+					ConfigItems: []ConfigItem{{Key: "type", Value: "alt"}, {Key: "priority", Value: "1"}},
 				},
 				{
 					StreamName: "alt-2",
-					Config:     map[string]string{"type": "alt", "priority": "2"},
+					ConfigItems: []ConfigItem{{Key: "type", Value: "alt"}, {Key: "priority", Value: "2"}},
 				},
 			},
 			description: "Primary with multiple alternative streams should work",
@@ -572,7 +572,7 @@ func (suite *FilterFactoryTestSuite) TestNew_FactoryConfiguration() {
 	config := FilterConfig{
 		Stream: Stream{
 			StreamName: "test-stream",
-			Config:     map[string]string{},
+			ConfigItems: []ConfigItem{},
 		},
 		Events:   []string{"test-event"},
 		DestType: "kinesis",
