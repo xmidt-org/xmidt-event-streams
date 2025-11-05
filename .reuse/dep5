@@ -1,0 +1,48 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: shared-go
+Upstream-Contact: Weston Schmidt <weston_scmidt@comcast.com>
+Source: https://github.com/comcast-cl/boreas
+
+Files: go.mod
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: go.sum
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: *.json
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: *.msgpack
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: .gitignore
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: README.md
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: integrationTests/README.md
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: docs/*
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: graph/generated/*.go
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: graph/model/models_gen.go
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST
+
+Files: graph/resolvers/schema.resolvers.go
+Copyright: SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+License: LicenseRef-COMCAST

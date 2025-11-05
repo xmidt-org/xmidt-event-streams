@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+---
+name: Integration
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+
+env:
+    go-version:        '^1.21.x'
+    go-version-latest: true
+    working-directory: '.'
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Add credentials for git
+        run: |
+          if [ "${{ secrets.REPO_FETCHING_TOKEN }}" != '' ]; then
+            git config --global url."https://${{ secrets.REPO_FETCHING_TOKEN }}:x-oauth-basic@github.com".insteadOf "https://github.com"
+          else
+            echo "If access to private repos are needed, add a secret: 'secrets.REPO_FETCHING_TOKEN'."
+          fi
+
+      - name: Setup go version
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: ${{ env.go-version }}
+          check-latest: ${{ env.go-version-latest }}
+          cache-dependency-path: ${{ env.working-directory }}/go.sum
+
+      # Run build of the application
+      - name: Run integration tests
+        working-directory: ${{ env.working-directory }}
+        run: |
+          go test ./... -p 1
+          
+        env:
+          INTEGRATION_TESTS_RUN:         working
+          INTEGRATION_TEST_VERBOSITY:    11
+          INTEGRATION_TEST_MAXWAIT:      30s
+          INTEGRATION_TEST_DYNAMO_DELAY: 5s
+

@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+--- 
+networks:
+  eventstream:
+    driver: bridge
+services:
+  kinesis: 
+    image: saidsef/aws-kinesis-local
+    networks:
+      - eventstream
+    ports: 
+      - "4567:4567"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -svo /dev/null -w 200 https://localhost:4567"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    environment:
+      AWS_ACCESS_KEY_ID: "accessKey"
+      AWS_SECRET_ACCESS_KEY: "secretKey"
+      AWS_REGION: local
+  # awscli-kinesis:
+  #   image: amazon/aws-cli
+  #   networks:
+  #     - eventstream
+  #   depends_on:
+  #     kinesis:
+  #       condition: service_healthy
+  #   ports: 
+  #     - "4560:4560"
+  #   environment:
+  #     AWS_ACCESS_KEY_ID: "accessKey"
+  #     AWS_SECRET_ACCESS_KEY: "secretKey"
+  #     AWS_REGION: local
+  #   command: "kinesis create-stream --endpoint-url=http://localhost:4567 --stream-name comcast-cl.device-status.local --shard-count 1"

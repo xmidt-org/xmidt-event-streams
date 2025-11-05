@@ -1,0 +1,13 @@
+__debug_bin*
+
+internal/auth/sat/cmd/cli/cli
+
+*.dot
+*.svg
+*.png
+*.jpg
+*.pdf
+output.txt
+lint.sh
+test.sh
+eventstream

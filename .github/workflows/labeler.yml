@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+---
+name: 'LABEL: main'
+on: 
+  issues:
+    types: [opened, edited, milestoned]
+  pull_request_target:
+    types: [ opened ]
+    branches: [ main ]
+
+jobs:
+
+  labeler:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Add Labels
+      id: labeler
+      uses: jimschubert/labeler-action@v2
+      with:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

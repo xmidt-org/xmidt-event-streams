@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+  
+jobs:
+  ci:
+    uses: comcast-cl/shared-go/.github/workflows/ci.yml@d15080ea2393dc357ef421189ba88e9573d8ac8f # v4.5.5
+    with:
+      release-type:         program
+      release-main-package: ./cmd/eventstream
+      release-docker-file:  .release/Dockerfile
+      release-docker:        true
+      release-docker-latest: true
+      release-docker-major:  true
+      release-docker-minor:  true
+      release-arch-arm64:    true
+      release-arch-amd64:    true
+      sonarcloud-exclusions: '**/*_test.go,**/vendor/**,**/mock.go,**/*_module.go,**/public_key_provider.go'
+    secrets: inherit
+  
+      

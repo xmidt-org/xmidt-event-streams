@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+---
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every day
+      interval: "daily"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  - package-ecosystem: gomod
+    directory: "/"
+    schedule:
+      interval: daily
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "feat"
+      include: "scope"
+
+
