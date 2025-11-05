@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/xmidt-org/xmidt-event-streams/filter"
-	"github.com/xmidt-org/xmidt-event-streams/internal/metrics"
+	"github.com/xmidt-org/xmidt-event-streams/metrics"
 	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/alecthomas/kong"
