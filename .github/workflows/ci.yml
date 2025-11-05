@@ -27,7 +27,6 @@ jobs:
       release-docker-minor:  true
       release-arch-arm64:    true
       release-arch-amd64:    true
-      sonarcloud-exclusions: '**/*_test.go,**/vendor/**,**/mock.go,**/*_module.go,**/public_key_provider.go'
     secrets: inherit
   
       
