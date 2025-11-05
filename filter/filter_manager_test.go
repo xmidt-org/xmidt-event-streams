@@ -202,19 +202,6 @@ func (suite *FilterManagerTestSuite) TestNew_ValidationErrors() {
 			},
 			expectedError: "FilterManagerMetrics",
 		},
-		{
-			name: "missing_filters",
-			options: []opts.Option[BaseFilterManager]{
-				WithLogger(suite.logger),
-				WithFilterMetrics(suite.mockFilterMetrics),
-				WithFilterManagerMetrics(suite.mockManagerMetrics),
-				WithDispatchProvider(suite.mockDispatchProvider),
-				WithDefaultQueueSize(100),
-				WithDefaultBatchSize(10),
-				WithDefaultWorkers(5),
-			},
-			expectedError: "[]filter.FilterConfig",
-		},
 	}
 
 	for _, tc := range testCases {

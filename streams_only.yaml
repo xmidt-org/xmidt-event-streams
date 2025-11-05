@@ -1,0 +1,75 @@
+# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: LicenseRef-COMCAST
+
+# Default configuration for EventStream service
+# This file contains all available configuration options with their default values
+# 
+# Configuration can be customized by:
+# 1. Creating a custom YAML file and using the --config flag
+# 2. Setting environment variables (see individual field comments for env var names)
+# 3. Overriding specific sections in additional config files
+#
+# The service accepts both JSON and MessagePack formatted WRP messages at the /api/events endpoint
+#
+# Example usage:
+#   ./eventstream --config /path/to/custom.yaml
+#   ./eventstream --config default.yaml --config overrides.yaml
+#
+# For testing with curl:
+#   curl -X POST -H "Content-Type: application/json" \
+#        -u "eventstream:eventstream-password" \
+#        -d '{"msg_type": 4, "source": "dns:test.example.com", "dest": "event:device-status/mac:112233445566/online"}' \
+#        http://localhost:8080/api/events
+# OAuth client secret (for upstream auth)
+
+# Filter manager configuration
+filter_manager:
+  delivery_retries: 3
+  default_queue_size: 1000
+  default_batch_size: 100
+  default_max_workers: 1000
+  
+  # Filter configurations
+  filters:
+      - stream:
+          stream_name: "comcast-cl.device-status.local"
+          config_items:
+              - key: "endpoint"
+                value: "http://localhost:4567"
+              - key: "region"
+                value: "local"
+              - key: "access_key"
+                value: "myAccessKey"
+              - key: "secret_key"
+                value: "mySecretKey"
+              - key: "session_token"
+                value: "mySessionToken"
+              - key: "version"
+                value: "1.0"
+          
+          # Alternative streams for failover (optional)
+        alt_streams: []
+      
+        # Event patterns to match using regex
+        events:
+          - "device-status.*"                       # Matches device-status/online, device-status/offline, etc.
+          # - "device-.*"                           # Would match any device events
+          # - "boot-time"                           # Would match specific boot-time events
+      
+        # Metadata filtering configuration
+        metadata:
+          device_ids: []                             # Device ID patterns using regex (empty means all devices)
+          # deviceIds:                              # Example device ID patterns:
+          #   - "mac:.*"                            # Match all MAC addresses
+          #   - "uuid:550e8400-.*"                  # Match specific UUID patterns
+      
+        # Destination type (kinesis, webhook, etc.)
+        dest_type: "kinesis"
+  
+        # Stream version identifier
+        stream_version: "1.0"
+      
+        # Performance tuning (optional - will use defaults if not specified)
+        queue_size: 100     # Number of events to buffer before dropping (default: 1000)
+        batch_size: 1       # Number of events to batch together (default: 100)
+        max_workers: 100    # Maximum concurrent workers (default: 1000)

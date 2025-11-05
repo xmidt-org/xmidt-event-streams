@@ -52,7 +52,6 @@ func (fm *BaseFilterManager) checkRequired() error {
 		WithFilterMetrics(nil),
 		WithFilterManagerMetrics(nil),
 		WithDispatchProvider(nil),
-		WithFilters(nil),
 		WithDefaultQueueSize(0),
 		WithDefaultBatchSize(0),
 		WithDefaultWorkers(0),
