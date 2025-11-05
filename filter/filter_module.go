@@ -1,11 +1,9 @@
 // SPDX-FileCopyrightText: 2017 Comcast Cable Communications Management, LLC
 // SPDX-License-Identifier: Apache-2.0
 
-
 package filter
 
 import (
-	
 	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/fogfish/opts"

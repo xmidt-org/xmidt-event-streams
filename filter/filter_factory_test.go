@@ -75,8 +75,8 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			name: "valid_minimal_configuration",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
-					ConfigItems:     []ConfigItem{{Key: "key", Value: "value"}},
+					StreamName:  "test-stream",
+					ConfigItems: []ConfigItem{{Key: "key", Value: "value"}},
 				},
 				Events:   []string{"device-status", ".*"},
 				DestType: "kinesis",
@@ -93,7 +93,7 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			name: "configuration_with_explicit_sizes",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream-2",
+					StreamName:  "test-stream-2",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"event-.*"},
@@ -114,16 +114,16 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			name: "configuration_with_alt_streams",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "primary-stream",
+					StreamName:  "primary-stream",
 					ConfigItems: []ConfigItem{{Key: "primary", Value: "true"}},
 				},
 				AltStreams: []Stream{
 					{
-						StreamName: "alt-stream-1",
+						StreamName:  "alt-stream-1",
 						ConfigItems: []ConfigItem{{Key: "alt", Value: "true"}},
 					},
 					{
-						StreamName: "alt-stream-2",
+						StreamName:  "alt-stream-2",
 						ConfigItems: []ConfigItem{{Key: "backup", Value: "true"}},
 					},
 				},
@@ -142,8 +142,8 @@ func (suite *FilterFactoryTestSuite) TestNew_Success() {
 			name: "configuration_with_match_all_devices",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "match-all-stream",
-					ConfigItems:     []ConfigItem{},
+					StreamName:  "match-all-stream",
+					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{".*"},
 				DestType: "kinesis",
@@ -217,7 +217,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			name: "invalid_destination_type",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
@@ -234,7 +234,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			name: "dispatcher_creation_error",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
@@ -253,7 +253,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			name: "empty_events_list",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{}, // Empty events should cause error
@@ -273,7 +273,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			name: "invalid_event_regex",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"[invalid-regex"},
@@ -293,7 +293,7 @@ func (suite *FilterFactoryTestSuite) TestNew_ValidationErrors() {
 			name: "invalid_device_id_regex",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
@@ -340,7 +340,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			name: "zero_values_use_defaults",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
@@ -361,7 +361,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			name: "negative_values_use_defaults",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
@@ -382,7 +382,7 @@ func (suite *FilterFactoryTestSuite) TestNew_DefaultValueApplication() {
 			name: "explicit_values_used",
 			config: FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:     []string{"test-event"},
@@ -457,7 +457,7 @@ func (suite *FilterFactoryTestSuite) TestNew_RegexMatcherHandling() {
 		suite.Run(tc.name, func() {
 			config := FilterConfig{
 				Stream: Stream{
-					StreamName: "test-stream",
+					StreamName:  "test-stream",
 					ConfigItems: []ConfigItem{},
 				},
 				Events:   []string{"test-event"},
@@ -503,7 +503,7 @@ func (suite *FilterFactoryTestSuite) TestNew_StreamHandling() {
 		{
 			name: "primary_stream_only",
 			primaryStream: Stream{
-				StreamName: "primary-only",
+				StreamName:  "primary-only",
 				ConfigItems: []ConfigItem{{Key: "type", Value: "primary"}},
 			},
 			altStreams:  []Stream{},
@@ -512,16 +512,16 @@ func (suite *FilterFactoryTestSuite) TestNew_StreamHandling() {
 		{
 			name: "primary_with_multiple_alt_streams",
 			primaryStream: Stream{
-				StreamName: "primary",
+				StreamName:  "primary",
 				ConfigItems: []ConfigItem{{Key: "type", Value: "primary"}},
 			},
 			altStreams: []Stream{
 				{
-					StreamName: "alt-1",
+					StreamName:  "alt-1",
 					ConfigItems: []ConfigItem{{Key: "type", Value: "alt"}, {Key: "priority", Value: "1"}},
 				},
 				{
-					StreamName: "alt-2",
+					StreamName:  "alt-2",
 					ConfigItems: []ConfigItem{{Key: "type", Value: "alt"}, {Key: "priority", Value: "2"}},
 				},
 			},
@@ -571,7 +571,7 @@ func (suite *FilterFactoryTestSuite) TestNew_FactoryConfiguration() {
 	// Test that factory configuration is properly applied to the filter
 	config := FilterConfig{
 		Stream: Stream{
-			StreamName: "test-stream",
+			StreamName:  "test-stream",
 			ConfigItems: []ConfigItem{},
 		},
 		Events:   []string{"test-event"},

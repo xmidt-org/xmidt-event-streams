@@ -16,7 +16,7 @@ type FilterConfig struct {
 
 type ConfigItem struct {
 	Key   string
-	Value string	
+	Value string
 }
 
 type Metadata struct {
@@ -38,7 +38,7 @@ func (s Stream) GetConfigItem(key string) (string, bool) {
 	return "", false
 }
 
-func (s Stream) GetConfigMap() (map[string]string) {
+func (s Stream) GetConfigMap() map[string]string {
 	configMap := make(map[string]string)
 	for _, item := range s.ConfigItems {
 		configMap[item.Key] = item.Value
