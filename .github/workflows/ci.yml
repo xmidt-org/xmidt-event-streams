@@ -16,7 +16,7 @@ on:
   
 jobs:
   ci:
-    uses: comcast-cl/shared-go/.github/workflows/ci.yml@d15080ea2393dc357ef421189ba88e9573d8ac8f # v4.5.5
+    uses: xmidt-org/shared-go/.github/workflows/ci.yml@5268009a77dc4857b9ced4b123cd2c3432ec4c58 # v4.9.7
     with:
       release-type:         program
       release-main-package: ./cmd/eventstream
