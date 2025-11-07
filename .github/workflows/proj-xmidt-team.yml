@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
-# SPDX-License-Identifier: LicenseRef-COMCAST
+# SPDX-FileCopyrightText: 2019 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: Apache-2.0
 ---
 name: 'PROJ: xmidt-team'
 
@@ -12,8 +12,6 @@ on:
       - opened
 
 jobs:
-  add-to-project:
-    uses: comcast-cl/shared-project/.github/workflows/proj.yml@573f0133683e7e2dfccacb4d2c43055ed91cee87 # v1.0.71
-    with:
-      project-number: 3
+  package:
+    uses: xmidt-org/.github/.github/workflows/proj-template.yml@proj-v1
     secrets: inherit
