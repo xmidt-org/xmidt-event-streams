@@ -8,8 +8,6 @@ import (
 	"os"
 
 	"github.com/xmidt-org/xmidt-event-streams/filter"
-	"github.com/xmidt-org/xmidt-event-streams/metrics"
-	"github.com/xmidt-org/xmidt-event-streams/sender"
 
 	"github.com/alecthomas/kong"
 	"github.com/goschtalt/goschtalt"
@@ -116,7 +114,6 @@ func provideAppOptions(args []string) fx.Option {
 		providePprofEndpoint(),
 		touchstone.Provide(),
 		touchhttp.Provide(),
-		metrics.Provide(),
 
 		arrangehttp.ProvideServer("servers.health"),
 		arrangehttp.ProvideServer("servers.metrics"),
@@ -125,8 +122,6 @@ func provideAppOptions(args []string) fx.Option {
 		arrangehttp.ProvideServer("servers.alternate"),
 
 		filter.FilterModule,
-		filter.QueueModule,
-		sender.SenderModule,
 		HandlerModule,
 		EventHandlerModule,
 	)

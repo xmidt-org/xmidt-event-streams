@@ -12,7 +12,7 @@ import (
 
 	"github.com/xmidt-org/wrp-go/v3"
 	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 )
 
 type Filter interface {

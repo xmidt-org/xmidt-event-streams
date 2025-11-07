@@ -4,7 +4,10 @@
 package filter
 
 import (
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
+	"github.com/xmidt-org/xmidt-event-streams/internal/metrics"
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 
 	"github.com/fogfish/opts"
 	kit "github.com/go-kit/kit/metrics"
@@ -36,8 +39,7 @@ type FilterManagerIn struct {
 	FilterManager        FilterManagerConfig
 	FilterMetrics        *FilterMetrics
 	FilterManagerMetrics *FilterManagerMetrics
-	QueueProvider        QueueProvider
-	SenderProvider       sender.SenderProvider
+	QueueMetrics         *queue.Telemetry
 }
 
 type FilterManagerOut struct {
@@ -46,6 +48,7 @@ type FilterManagerOut struct {
 }
 
 var FilterModule = fx.Module("filter",
+	metrics.Provide(),
 	fx.Provide(
 		func(in FilterTelemetryIn) *FilterMetrics {
 			return &FilterMetrics{
@@ -59,11 +62,40 @@ var FilterModule = fx.Module("filter",
 			}
 		}),
 	fx.Provide(
+		func(in QueueTelemetryIn) *queue.Telemetry {
+			return &queue.Telemetry{
+				QueuedItems:  in.QueuedItems,
+				DroppedItems: in.DroppedItems,
+				BatchSize:    in.BatchSize,
+				SubmitErrors: in.SubmitErrors,
+				CallDuration: in.CallDuration,
+			}
+		}),
+	fx.Provide(
 		func(in FilterManagerIn) (FilterManagerOut, error) {
+			kinesisProvider := kinesis.NewKinesisProvider()
+			var opt []opts.Option[sender.SenderFactory]
+			opt = append(opt,
+				sender.WithLogger(in.Logger),
+				sender.WithKinesisProvider(kinesisProvider),
+			)
+			senderProvider, err := sender.NewSenderFactory(opt)
+			if err != nil {
+				return FilterManagerOut{}, err
+			}
+
+			queueProvider, err := NewQueueFactory([]opts.Option[QueueFactory]{
+				WithQueueLogger(in.Logger),
+				WithQueueTelemetry(in.QueueMetrics),
+			})
+			if err != nil {
+				return FilterManagerOut{}, err
+			}
+
 			var dispatcherOpts []opts.Option[DispatcherFactory]
 			dispatcherOpts = append(dispatcherOpts,
-				WithQueueProvider(in.QueueProvider),
-				WithSenderProvider(in.SenderProvider),
+				WithQueueProvider(queueProvider),
+				WithSenderProvider(senderProvider),
 				WithDispatchLogger(in.Logger),
 				WithDispatchMetrics(in.FilterMetrics),
 			)
