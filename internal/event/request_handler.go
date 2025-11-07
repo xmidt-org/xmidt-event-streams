@@ -91,7 +91,7 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 		// return a 503
 		response.WriteHeader(http.StatusServiceUnavailable)
 		response.Write([]byte("Incoming queue is full.\n"))
-		h.logger.Debug("Incoming queue is full.\n")
+		h.logger.Error("Incoming queue is full.\n")
 		return
 	}
 

@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest"
 
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 )
 
 // FilterFactoryTestSuite contains tests for BaseFilterFactory functionality

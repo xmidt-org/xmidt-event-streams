@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 
 	"github.com/fogfish/opts"
 	"github.com/xmidt-org/wrp-go/v3"

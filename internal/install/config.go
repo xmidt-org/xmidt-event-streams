@@ -10,7 +10,7 @@ import (
 
 	"github.com/xmidt-org/xmidt-event-streams/filter"
 	"github.com/xmidt-org/xmidt-event-streams/internal/auth"
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 
 	"github.com/goschtalt/goschtalt"
 	"github.com/xmidt-org/arrange/arrangehttp"

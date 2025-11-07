@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
-	"github.com/xmidt-org/xmidt-event-streams/sender"
+	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 
 	kit "github.com/go-kit/kit/metrics"
 	"github.com/stretchr/testify/mock"
