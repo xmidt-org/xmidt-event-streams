@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2023 Comcast Cable Communications Management, LLC
-# SPDX-License-Identifier: LicenseRef-COMCAST
+# SPDX-FileCopyrightText: 2021 Comcast Cable Communications Management, LLC
+# SPDX-License-Identifier: Apache-2.0
 
 FROM docker.io/library/golang:alpine3.18 as builder
 
