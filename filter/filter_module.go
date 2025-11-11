@@ -57,7 +57,7 @@ type FilterManagerOut struct {
 }
 
 var FilterModule = fx.Module("filter",
-	metrics.Provide(),
+	metrics.Provide(), // move this and make metrics module public if we want something other than prometheus
 	fx.Provide(
 		func(in FilterTelemetryIn) *FilterMetrics {
 			return &FilterMetrics{

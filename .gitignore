@@ -10,5 +10,4 @@ internal/auth/sat/cmd/cli/cli
 output.txt
 lint.sh
 test.sh
-eventstream
 *.disabled
