@@ -20,9 +20,8 @@ const MAX_OUTSTANDING_DEFAULT = 10000
 
 // Below is the struct that will implement our ServeHTTP method
 type RequestHandler struct {
-	logger       *zap.Logger
-	eventHandler EventHandler
-	//metrics            *RequestHandlerMetrics
+	logger             *zap.Logger
+	eventHandler       EventHandler
 	incomingQueueDepth int32
 	maxOutstanding     int32
 	now                func() time.Time
@@ -30,7 +29,6 @@ type RequestHandler struct {
 
 // options
 var (
-	//WithMaxOutstandingWorkers = opts.ForName[RequestHandler, int32]("maxOutstanding")
 	WithLogger       = opts.ForType[RequestHandler, *zap.Logger]()
 	WithEventHandler = opts.ForType[RequestHandler, EventHandler]()
 )
@@ -56,12 +54,6 @@ func New(opt []opts.Option[RequestHandler]) (*RequestHandler, error) {
 }
 
 func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
-	//eventType := unknownEventType
-	// find time difference, add to metric after function finishes
-	// defer func(s time.Time) {
-	// 	h.recordQueueLatencyToHistogram(s, eventType)
-	// }(h.now())
-
 	h.logger.Debug("Receiving incoming request...")
 
 	// Determine the format based on Content-Type header
@@ -135,8 +127,6 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 		h.logger.Debug("Strings must be UTF-8.")
 		return
 	}
-	// since eventType is only used to enrich metrics and logging, remove invalid UTF-8 characters from the URL
-	//eventType = strings.ToValidUTF8(msg.FindEventStringSubMatch(), "")
 
 	h.eventHandler.HandleEvent(0, h.fixWrp(msg))
 
@@ -167,10 +157,6 @@ func (h *RequestHandler) fixWrp(msg *wrp.Message) *wrp.Message {
 			reason = bothEmptyReason
 		}
 	}
-
-	// if reason != "" {
-	// 	h.metrics.ModifiedWRPCount.With(reasonLabel, reason).Add(1.0)
-	// }
 
 	return msg
 }
