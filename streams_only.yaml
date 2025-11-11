@@ -46,6 +46,8 @@ filter_manager:
                 value: "mySessionToken"
               - key: "version"
                 value: "1.0"
+              - key: "role"  # use either role arn or credentials
+                value: ""
           
           # Alternative streams for failover (optional)
         alt_streams: []
