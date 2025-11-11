@@ -21,4 +21,4 @@ opts := fx.Options(
 ```
 
 # Configuration
-see ./streams_only.yaml
+see streams_only.yaml
