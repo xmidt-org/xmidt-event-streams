@@ -20,8 +20,8 @@ const MAX_OUTSTANDING_DEFAULT = 10000
 
 // Below is the struct that will implement our ServeHTTP method
 type RequestHandler struct {
-	logger       *zap.Logger
-	eventHandler EventHandler
+	logger             *zap.Logger
+	eventHandler       EventHandler
 	incomingQueueDepth int32
 	maxOutstanding     int32
 	now                func() time.Time
@@ -127,7 +127,7 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 		h.logger.Debug("Strings must be UTF-8.")
 		return
 	}
-	
+
 	h.eventHandler.HandleEvent(0, h.fixWrp(msg))
 
 	// return a 202
