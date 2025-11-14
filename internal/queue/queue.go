@@ -22,7 +22,7 @@ const (
 	DefaultBatchSize             = 10
 	DefaultWorkerPoolSize        = 10
 	DefaultChannelSize           = 100
-	DefaultBatchTimeLimitSeconds = 10
+	DefaultBatchTimeLimitSeconds = 15
 )
 
 type Telemetry struct {
