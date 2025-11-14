@@ -22,7 +22,7 @@ const (
 	DefaultBatchSize             = 10
 	DefaultWorkerPoolSize        = 10
 	DefaultChannelSize           = 100
-	DefaultBatchTimeLimitSeconds = 10
+	DefaultBatchTimeLimitSeconds = 15
 )
 
 type Telemetry struct {
@@ -73,8 +73,6 @@ func NewQueue[T any](cfg QueueConfig, t *Telemetry, logger *zap.Logger, batchSub
 		return nil, errors.New("logger is required")
 	}
 
-	logger.Info("queue config", zap.Int("batchSize", cfg.BatchSize), zap.Int("channelSize", cfg.ChannelSize), zap.Int("workerPoolSize", cfg.WorkerPoolSize))
-
 	if t == nil {
 		return nil, errors.New("telemetry is required")
 	}
@@ -107,6 +105,8 @@ func NewQueue[T any](cfg QueueConfig, t *Telemetry, logger *zap.Logger, batchSub
 		cfg:            &cfg,
 		batchSubmitter: batchSubmitter,
 	}
+
+	logger.Info("queue config", zap.Int("batchSize", cfg.BatchSize), zap.Int("channelSize", cfg.ChannelSize), zap.Int("workerPoolSize", cfg.WorkerPoolSize), zap.Bool("submitOnEmptyQueue", cfg.SubmitOnEmptyQueue), zap.Int("batchTimeLimitSeconds", cfg.BatchTimeLimitSeconds))
 
 	return q, nil
 }
@@ -167,9 +167,9 @@ func (q *MyQueue[T]) Start(ctx context.Context) {
 			q.logger.Debug("queue size", zap.Int("size", len(q.items)))
 			q.processItems(ctx, &items)
 		case <-timeout.C:
-			// q.logger.Debug("time limit reached, processing items", zap.Int("currentBatchSize", len(items)))
+			q.logger.Debug("time limit reached, processing items", zap.Int("currentBatchSize", len(items)))
 			q.submitItems(ctx, &items)
-			timeout = time.NewTicker(time.Duration(q.cfg.BatchTimeLimitSeconds))
+			timeout = time.NewTicker(time.Duration(q.cfg.BatchTimeLimitSeconds) * time.Second)
 		}
 	}
 }
