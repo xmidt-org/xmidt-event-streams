@@ -73,8 +73,6 @@ func NewQueue[T any](cfg QueueConfig, t *Telemetry, logger *zap.Logger, batchSub
 		return nil, errors.New("logger is required")
 	}
 
-	logger.Info("queue config", zap.Int("batchSize", cfg.BatchSize), zap.Int("channelSize", cfg.ChannelSize), zap.Int("workerPoolSize", cfg.WorkerPoolSize))
-
 	if t == nil {
 		return nil, errors.New("telemetry is required")
 	}
@@ -107,6 +105,8 @@ func NewQueue[T any](cfg QueueConfig, t *Telemetry, logger *zap.Logger, batchSub
 		cfg:            &cfg,
 		batchSubmitter: batchSubmitter,
 	}
+
+	logger.Info("queue config", zap.Int("batchSize", cfg.BatchSize), zap.Int("channelSize", cfg.ChannelSize), zap.Int("workerPoolSize", cfg.WorkerPoolSize), zap.Bool("submitOnEmptyQueue", cfg.SubmitOnEmptyQueue), zap.Int("batchTimeLimitSeconds", cfg.BatchTimeLimitSeconds))
 
 	return q, nil
 }

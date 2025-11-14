@@ -320,18 +320,18 @@ func (suite *QueueTestSuite) TestStart_ContextCancellation() {
 	// If we reach here without hanging, the test passes
 }
 
-func (suite *QueueTestSuite) TestStart_BatchSizeProcessing() {
+func (suite *QueueTestSuite) TestBatchSizeLimitReached() {
 	suite.T().Run("process_when_batch_size_reached", func(t *testing.T) {
 		config := QueueConfig{
 			Name:                  "test-queue",
-			BatchSize:             2,
+			BatchSize:             3,
 			BatchTimeLimitSeconds: 60, // Long timeout so batch size triggers first
 			WorkerPoolSize:        1,
 		}
 
 		// Setup submitter expectation
 		suite.submitter.On("Submit", mock.MatchedBy(func(items []TestItem) bool {
-			return len(items) == 2 && items[0].ID == 1 && items[1].ID == 2
+			return len(items) == 3 && items[0].ID == 1 && items[1].ID == 2 && items[2].ID == 3
 		})).Return(nil).Once()
 
 		queue, err := NewQueue(config, suite.telemetry, suite.logger, suite.submitter)
@@ -350,6 +350,7 @@ func (suite *QueueTestSuite) TestStart_BatchSizeProcessing() {
 		// Add items to trigger batch processing
 		queue.AddItem(TestItem{ID: 1, Data: "test1"})
 		queue.AddItem(TestItem{ID: 2, Data: "test2"})
+		queue.AddItem(TestItem{ID: 3, Data: "test3"}) // This should trigger processing of first two
 
 		// Give some time for processing
 		time.Sleep(100 * time.Millisecond)
@@ -359,6 +360,44 @@ func (suite *QueueTestSuite) TestStart_BatchSizeProcessing() {
 		queue.Wait()
 
 		suite.submitter.AssertExpectations(suite.T())
+	})
+}
+
+func (suite *QueueTestSuite) TestBatchSizeLimitNotReached() {
+	suite.T().Run("process_when_batch_size_reached", func(t *testing.T) {
+		config := QueueConfig{
+			Name:                  "test-queue",
+			BatchSize:             3,
+			BatchTimeLimitSeconds: 60, // Long timeout so batch size triggers first
+			WorkerPoolSize:        1,
+		}
+
+		queue, err := NewQueue(config, suite.telemetry, suite.logger, suite.submitter)
+		suite.NoError(err)
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			queue.Start(ctx)
+		}()
+
+		// Add items to trigger batch processing
+		queue.AddItem(TestItem{ID: 1, Data: "test1"})
+		queue.AddItem(TestItem{ID: 2, Data: "test2"})
+		// Not enough to trigger batch processing yet
+
+		// Give some time for processing
+		time.Sleep(100 * time.Millisecond)
+
+		cancel()
+		wg.Wait()
+		queue.Wait()
+
+		suite.submitter.AssertNotCalled(suite.T(), "Submit", mock.Anything)
 	})
 }
 
