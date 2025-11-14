@@ -167,9 +167,9 @@ func (q *MyQueue[T]) Start(ctx context.Context) {
 			q.logger.Debug("queue size", zap.Int("size", len(q.items)))
 			q.processItems(ctx, &items)
 		case <-timeout.C:
-			// q.logger.Debug("time limit reached, processing items", zap.Int("currentBatchSize", len(items)))
+			q.logger.Debug("time limit reached, processing items", zap.Int("currentBatchSize", len(items)))
 			q.submitItems(ctx, &items)
-			timeout = time.NewTicker(time.Duration(q.cfg.BatchTimeLimitSeconds))
+			timeout = time.NewTicker(time.Duration(q.cfg.BatchTimeLimitSeconds) * time.Second)
 		}
 	}
 }
