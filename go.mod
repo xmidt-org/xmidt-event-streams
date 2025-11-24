@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.40.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.0
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.0
-	github.com/aws/aws-sdk-go-v2/service/kinesis v1.42.3
+	github.com/aws/aws-sdk-go-v2/service/kinesis v1.42.5
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.1
 	github.com/fogfish/opts v0.0.5
 	github.com/goschtalt/goschtalt v0.27.0
