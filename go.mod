@@ -24,7 +24,7 @@ require (
 	github.com/xmidt-org/wrp-go/v3 v3.7.0
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.1
-	golang.org/x/sync v0.17.0
+	golang.org/x/sync v0.18.0
 )
 
 require (
