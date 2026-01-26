@@ -88,7 +88,7 @@ require (
 	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/net v0.43.0 // indirect
 	golang.org/x/sys v0.35.0 // indirect
-	golang.org/x/text v0.28.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251103181224-f26f9409b101 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251103181224-f26f9409b101 // indirect
 	google.golang.org/grpc v1.71.0 // indirect
@@ -105,7 +105,7 @@ require (
 
 require (
 	github.com/go-kit/kit v0.13.0
-	github.com/k0kubun/pp/v3 v3.5.0
+	github.com/k0kubun/pp/v3 v3.5.1
 	github.com/segmentio/ksuid v1.0.4
 	github.com/xmidt-org/bascule v1.1.0
 	github.com/xmidt-org/candlelight v0.2.1
