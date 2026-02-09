@@ -98,7 +98,7 @@ require (
 )
 
 require (
-	github.com/alecthomas/kong v1.13.0
+	github.com/alecthomas/kong v1.14.0
 	github.com/go-chi/chi/v5 v5.2.5
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 )
