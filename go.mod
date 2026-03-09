@@ -1,6 +1,6 @@
 module github.com/xmidt-org/xmidt-event-streams
 
-go 1.24.2
+go 1.25.0
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.41.3
@@ -24,7 +24,7 @@ require (
 	github.com/xmidt-org/wrp-go/v3 v3.7.0
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.1
-	golang.org/x/sync v0.19.0
+	golang.org/x/sync v0.20.0
 )
 
 require (
