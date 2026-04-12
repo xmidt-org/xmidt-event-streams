@@ -17,6 +17,6 @@ jobs:
     steps:
     - name: Add Labels
       id: labeler
-      uses: jimschubert/labeler-action@v2
+      uses: jimschubert/labeler-action@e6fb93f2d64d8b0b78d208456f349e9e00698a5d # v2
       with:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
