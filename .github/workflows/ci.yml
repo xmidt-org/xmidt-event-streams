@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2017 Comcast Cable Communications Management, LLC
+# SPDX-FileCopyrightText: 2022 Comcast Cable Communications Management, LLC
 # SPDX-License-Identifier: Apache-2.0
 ---
 name: CI
@@ -9,8 +9,12 @@ on:
       - main
     paths-ignore:
       - README.md
+      - CONTRIBUTING.md
+      - MAINTAINERS.md
+      - LICENSE
+      - NOTICE
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
   workflow_dispatch:
 
@@ -18,12 +22,13 @@ permissions:
   pull-requests: read
   contents: write
   packages: write
-  
+
 jobs:
   ci:
+    # yamllint disable-line
     uses: xmidt-org/shared-go/.github/workflows/ci.yml@aff0471aa7e2f96ddb059beb178f63747a7cc57e # v4.9.41
     with:
-      release-type:         library
+      release-type:         program
       release-main-package: ./cmd/eventstream
       release-docker-file:  .release/Dockerfile
       release-docker:        true
@@ -33,5 +38,3 @@ jobs:
       release-arch-arm64:    true
       release-arch-amd64:    true
     secrets: inherit
-  
-      
