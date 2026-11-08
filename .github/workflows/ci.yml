@@ -20,6 +20,7 @@ jobs:
     with:
       release-type:         program
       release-main-package: ./cmd/eventstream
+      release-binary-name:  eventstream
       release-docker-file:  .release/Dockerfile
       release-docker:        true
       release-docker-latest: true

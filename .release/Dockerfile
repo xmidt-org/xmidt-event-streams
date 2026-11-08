@@ -1,28 +1,15 @@
 # SPDX-FileCopyrightText: 2021 Comcast Cable Communications Management, LLC
 # SPDX-License-Identifier: Apache-2.0
 
-FROM docker.io/library/golang:alpine3.18 as builder
+# GoReleaser builds the binary and places it in the docker build context.
+FROM docker.io/library/alpine:3.20
 
+RUN apk add --no-cache --no-progress ca-certificates \
+    && mkdir /etc/eventstream \
+    && touch /etc/eventstream/eventstream.yaml \
+    && chmod 666 /etc/eventstream/eventstream.yaml
 
-WORKDIR /src
-
-COPY . .
-
-RUN apk add --no-cache --no-progress \
-    ca-certificates \
-    make \
-    git \
-    openssh \
-    gcc \
-    libc-dev 
-
-
-RUN mkdir /etc/eventstream/ && touch /etc/eventstream/eventstream.yaml && chmod 666 /etc/eventstream/eventstream.yaml
-
-FROM alpine:3.18
-
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /src/eventstream /eventstream
+COPY eventstream /eventstream
 
 USER nobody
 
@@ -34,4 +21,3 @@ EXPOSE 8181
 WORKDIR /
 
 ENTRYPOINT ["./eventstream"]
-
