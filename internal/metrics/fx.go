@@ -16,6 +16,8 @@ import (
 type metricType int
 
 const (
+	nameLabel = "name"
+
 	COUNTER           metricType = 1
 	GAUGE             metricType = 2
 	HISTOGRAM         metricType = 3
@@ -45,30 +47,30 @@ var fxMetrics = []metricDefinition{
 		Type:   GAUGE,
 		Name:   "queue_waiting_events",
 		Help:   "The number of events waiting to run in the queue.",
-		Labels: "name",
+		Labels: nameLabel,
 	},
 	{
 		Type:   GAUGE,
 		Name:   "queue_batch_size",
 		Help:   "The number of items in a batch submitted for processing.",
-		Labels: "name",
+		Labels: nameLabel,
 	},
 	{
 		Type:   COUNTER,
 		Name:   "queue_dropped_events",
 		Help:   "The number of events dropped on the floor.",
-		Labels: "name",
+		Labels: nameLabel,
 	},
 	{
 		Type:   COUNTER,
 		Name:   "queue_submit_errors",
 		Help:   "error when queue submits a batch",
-		Labels: "name",
+		Labels: nameLabel,
 	}, {
 		Type:    HISTOGRAM,
 		Name:    "queue_submit_duration",
 		Help:    "duration of call",
-		Labels:  "name",
+		Labels:  nameLabel,
 		Buckets: "10, 100, 1000, 5000, 10000, 100000, 500000, 1000000, 2000000",
 	}, {
 		Type:   COUNTER,

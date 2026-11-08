@@ -595,7 +595,6 @@ func (suite *FilterFactoryTestSuite) TestNew_FactoryConfiguration() {
 	if ok {
 		suite.Equal(suite.factory.DeliveryRetries, baseFilter.deliveryRetries, "Delivery retries should match factory setting")
 		suite.Equal(suite.factory.Metrics, baseFilter.metrics, "Metrics should match factory setting")
-		suite.Equal(suite.factory.DispatcherProvider, suite.factory.DispatcherProvider, "Dispatch provider should match factory setting")
 		suite.NotNil(baseFilter.logger, "Logger should be set")
 	}
 }

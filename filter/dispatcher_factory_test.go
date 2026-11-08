@@ -250,8 +250,8 @@ func (suite *DispatcherFactoryTestSuite) TestGetDispatcher_Success() {
 		// Type assert to check internal structure
 		streamDispatcher, ok := dispatcher.(*StreamDispatcher)
 		suite.True(ok)
-		suite.Equal(len(streams), len(streamDispatcher.senders))
-		suite.Equal(len(streams), len(streamDispatcher.streams))
+		suite.Len(streamDispatcher.senders, len(streams))
+		suite.Len(streamDispatcher.streams, len(streams))
 
 		// Verify all expectations were met
 		mockSenderProvider.AssertExpectations(suite.T())
@@ -308,8 +308,8 @@ func (suite *DispatcherFactoryTestSuite) TestGetDispatcher_Success() {
 		// Type assert to check internal structure
 		streamDispatcher, ok := dispatcher.(*StreamDispatcher)
 		suite.True(ok)
-		suite.Equal(0, len(streamDispatcher.senders))
-		suite.Equal(0, len(streamDispatcher.streams))
+		suite.Empty(streamDispatcher.senders)
+		suite.Empty(streamDispatcher.streams)
 
 		// Verify all expectations were met
 		mockQueueProvider.AssertExpectations(suite.T())

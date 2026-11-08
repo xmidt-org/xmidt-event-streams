@@ -5,12 +5,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/xmidt-org/xmidt-event-streams/internal/install"
 	"os"
 	"runtime/debug"
+
+	"github.com/xmidt-org/xmidt-event-streams/internal/install"
 )
 
 func main() {
+	os.Exit(run())
+}
+
+func run() int {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("stacktrace from panic: \n" + string(debug.Stack()))
@@ -19,9 +24,9 @@ func main() {
 
 	err := install.EventStream(os.Args[1:], true)
 	if err == nil {
-		return
+		return 0
 	}
 
 	fmt.Fprintln(os.Stderr, err)
-	os.Exit(-1)
+	return -1
 }

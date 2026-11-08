@@ -4,8 +4,9 @@
 package filter
 
 import (
-	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 	"testing"
+
+	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 
 	"github.com/fogfish/opts"
 	"github.com/stretchr/testify/mock"

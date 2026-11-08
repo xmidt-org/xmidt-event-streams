@@ -25,11 +25,10 @@ var SenderModule = fx.Module("sender",
 	fx.Provide(
 		func(in SenderIn) (SenderOut, error) {
 			kinesisProvider := kinesis.NewKinesisProvider()
-			var opt []opts.Option[SenderFactory]
-			opt = append(opt,
+			opt := []opts.Option[SenderFactory]{
 				WithLogger(in.Logger),
 				WithKinesisProvider(kinesisProvider),
-			)
+			}
 
 			senderProvider, err := NewSenderFactory(opt)
 

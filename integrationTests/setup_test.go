@@ -4,6 +4,7 @@
 package integrationTests
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
@@ -27,10 +28,10 @@ func TestMain(m *testing.M) {
 	infra := idock.New(
 		idock.DockerComposeFile("docker.yml"),
 		// NOTE - UNABLE TO RUN LOCALLY UNLESS BELOW LINE IS COMMENTED, docker startup times out, same on github action
-		//idock.RequireDockerTCPPorts(4567, 6100, 6101, 6102, 6103, 6600, 6601, 6602, 6603, 4566, 6379),
-		//idock.AfterDocker(waitForAnemoi),
+		// idock.RequireDockerTCPPorts(4567, 6100, 6101, 6102, 6103, 6600, 6601, 6602, 6603, 4566, 6379),
+		// idock.AfterDocker(waitForAnemoi),
 		idock.Program(func() { _ = install.EventStream([]string{"--dev", "-f", "eventstream.yml"}, true) }),
-		//idock.RequireProgramTCPPorts(18111,18112,18113),
+		// idock.RequireProgramTCPPorts(18111,18112,18113),
 	)
 
 	err := infra.Start()
@@ -44,7 +45,7 @@ func TestMain(m *testing.M) {
 	// Create a new *Cmd instance for the shell script
 	// The first argument is the interpreter (e.g., "bash", "/bin/sh")
 	// The subsequent arguments are passed to the interpreter, including the script itself
-	cmd := exec.Command("bash", scriptPath)
+	cmd := exec.CommandContext(context.Background(), "bash", scriptPath)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()

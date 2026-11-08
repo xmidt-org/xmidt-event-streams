@@ -25,14 +25,13 @@ type AuthOut struct {
 func provideAuth(in AuthIn) (AuthOut, error) {
 	keyProvider := auth.NewKeyProvider(in.Auth.Jwt.KeyRefreshInterval, in.Auth.Jwt.PublicKeyUrl)
 
-	var opts []opts.Option[auth.Auth]
-	opts = append(opts,
+	opts := []opts.Option[auth.Auth]{
 		auth.IsBasic(in.Auth.IsBasic),
 		auth.WithBasic(in.Auth.Basic),
 		auth.WithJwt(in.Auth.Jwt),
 		auth.WithLogger(in.Logger),
 		auth.WithPublicKeyProvider(keyProvider),
-	)
+	}
 
 	auth, err := auth.New(opts)
 

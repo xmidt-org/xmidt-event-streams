@@ -5,6 +5,7 @@ package event
 
 import (
 	"bytes"
+	"context"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -69,7 +70,7 @@ func (suite *RequestHandlerTestSuite) createJSONPayload() []byte {
 	msg := suite.createTestWRPMessage()
 	encodedBytes := []byte{}
 	encoder := wrp.NewEncoderBytes(&encodedBytes, wrp.JSON)
-	encoder.Encode(msg)
+	_ = encoder.Encode(msg)
 	return encodedBytes
 }
 
@@ -77,7 +78,7 @@ func (suite *RequestHandlerTestSuite) createMsgPackPayload() []byte {
 	msg := suite.createTestWRPMessage()
 	encodedBytes := []byte{}
 	encoder := wrp.NewEncoderBytes(&encodedBytes, wrp.Msgpack)
-	encoder.Encode(msg)
+	_ = encoder.Encode(msg)
 	return encodedBytes
 }
 
@@ -150,7 +151,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_Success() {
 			suite.mockEventHandler.On("HandleEvent", 0, mock.AnythingOfType("*wrp.Message")).Once()
 
 			// Create request
-			req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(tc.payload))
+			req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(tc.payload))
 			req.Header.Set("Content-Type", tc.contentType)
 
 			// Create response recorder
@@ -203,7 +204,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_ContentTypeHandling() {
 	for _, tc := range testCases {
 		suite.T().Run(tc.name, func(t *testing.T) {
 			payload := suite.createJSONPayload()
-			req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(payload))
+			req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(payload))
 
 			if tc.contentType != "" {
 				req.Header.Set("Content-Type", tc.contentType)
@@ -230,7 +231,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_QueueDepthHandling() {
 		suite.mockEventHandler.On("HandleEvent", 0, mock.AnythingOfType("*wrp.Message")).Once()
 
 		payload := suite.createJSONPayload()
-		req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(payload))
+		req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(payload))
 		req.Header.Set("Content-Type", "application/json")
 
 		w := httptest.NewRecorder()
@@ -249,7 +250,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_QueueDepthHandling() {
 		suite.handler.incomingQueueDepth = 1 // Already at limit
 
 		payload := suite.createJSONPayload()
-		req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(payload))
+		req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(payload))
 		req.Header.Set("Content-Type", "application/json")
 
 		w := httptest.NewRecorder()
@@ -277,7 +278,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_PayloadHandling() {
 		{
 			name: "empty_payload",
 			setupRequest: func() *http.Request {
-				req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader([]byte{}))
+				req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader([]byte{}))
 				req.Header.Set("Content-Type", "application/json")
 				return req
 			},
@@ -288,7 +289,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_PayloadHandling() {
 		{
 			name: "invalid_json_payload",
 			setupRequest: func() *http.Request {
-				req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader([]byte(`{invalid json}`)))
+				req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader([]byte(`{invalid json}`)))
 				req.Header.Set("Content-Type", "application/json")
 				return req
 			},
@@ -310,9 +311,9 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_PayloadHandling() {
 				}
 				encodedBytes := []byte{}
 				encoder := wrp.NewEncoderBytes(&encodedBytes, wrp.JSON)
-				encoder.Encode(msg)
+				_ = encoder.Encode(msg)
 
-				req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(encodedBytes))
+				req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(encodedBytes))
 				req.Header.Set("Content-Type", "application/json")
 				return req
 			},
@@ -327,7 +328,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_PayloadHandling() {
 				// This bypasses the WRP encoder which might sanitize the data
 				invalidPayload := []byte(`{"msg_type":4,"source":"device-123","dest":"` + string([]byte{0xFF, 0xFE, 0xFD}) + `","transaction_uuid":"test-uuid","content_type":"application/json","payload":"dGVzdA=="}`)
 
-				req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(invalidPayload))
+				req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(invalidPayload))
 				req.Header.Set("Content-Type", "application/json")
 				return req
 			},
@@ -339,7 +340,7 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_PayloadHandling() {
 			name: "read_error",
 			setupRequest: func() *http.Request {
 				// Create a request with a body that will cause read error
-				req := httptest.NewRequest("POST", "/api/v2/device", &errorReader{})
+				req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", &errorReader{})
 				req.Header.Set("Content-Type", "application/json")
 				return req
 			},
@@ -478,10 +479,10 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_Integration() {
 
 		encodedBytes := []byte{}
 		encoder := wrp.NewEncoderBytes(&encodedBytes, wrp.JSON)
-		encoder.Encode(msg)
+		_ = encoder.Encode(msg)
 		payload := encodedBytes
 
-		req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(payload))
+		req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(payload))
 		req.Header.Set("Content-Type", "application/json")
 
 		w := httptest.NewRecorder()
@@ -518,8 +519,8 @@ func (suite *RequestHandlerTestSuite) TestServeHTTP_ConcurrentRequests() {
 		payload := suite.createJSONPayload()
 
 		// Execute sequential requests
-		for i := 0; i < 3; i++ {
-			req := httptest.NewRequest("POST", "/api/v2/device", bytes.NewReader(payload))
+		for i := range 3 {
+			req := httptest.NewRequestWithContext(context.Background(), http.MethodPost, "/api/v2/device", bytes.NewReader(payload))
 			req.Header.Set("Content-Type", "application/json")
 			w := httptest.NewRecorder()
 

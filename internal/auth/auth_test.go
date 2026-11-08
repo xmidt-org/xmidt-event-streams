@@ -168,13 +168,13 @@ func (suite *AuthTestSuite) TestBasicAuth() {
 		},
 	)
 
-	goodRequest := httptest.NewRequest("GET", "/", nil)
+	goodRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	goodRequest.SetBasicAuth("some-username", "some-password")
 	response := httptest.NewRecorder()
 	h.ServeHTTP(response, goodRequest)
 	suite.Equal(http.StatusOK, response.Code)
 
-	badRequest := httptest.NewRequest("GET", "/", nil)
+	badRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	badRequest.SetBasicAuth("some-username", "some-bad-password")
 	response = httptest.NewRecorder()
 	h.ServeHTTP(response, badRequest)
@@ -199,13 +199,13 @@ func (suite *AuthTestSuite) TestJwtAuth() {
 		},
 	)
 
-	goodRequest := httptest.NewRequest("GET", "/", nil)
+	goodRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	goodRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", string(suite.signedJWT)))
 	response := httptest.NewRecorder()
 	h.ServeHTTP(response, goodRequest)
 	suite.Equal(http.StatusOK, response.Code)
 
-	badRequest := httptest.NewRequest("GET", "/", nil)
+	badRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	badRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", "some bad token"))
 	response = httptest.NewRecorder()
 	h.ServeHTTP(response, badRequest)
@@ -213,7 +213,7 @@ func (suite *AuthTestSuite) TestJwtAuth() {
 
 	// no matching capabilities
 	auth.Jwt.ServiceCapabilities = []string{"some-other-capability"}
-	forbiddenRequest := httptest.NewRequest("GET", "/", nil)
+	forbiddenRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	forbiddenRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", string(suite.signedJWT)))
 	response = httptest.NewRecorder()
 	h.ServeHTTP(response, forbiddenRequest)
@@ -221,7 +221,7 @@ func (suite *AuthTestSuite) TestJwtAuth() {
 
 	// matching capabilities
 	auth.Jwt.ServiceCapabilities = []string{"x1:webpa:api:.*:all"}
-	authorizedRequest := httptest.NewRequest("GET", "/", nil)
+	authorizedRequest := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil)
 	authorizedRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", string(suite.signedJWT)))
 	response = httptest.NewRecorder()
 	h.ServeHTTP(response, authorizedRequest)

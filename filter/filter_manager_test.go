@@ -427,7 +427,7 @@ func (suite *FilterManagerTestSuite) TestShutdown() {
 		suite.Run(tc.name, func() {
 			// Create mock filters
 			mockFilters := make(map[string]Filter)
-			for i := 0; i < tc.numFilters; i++ {
+			for i := range tc.numFilters {
 				mockFilter := new(MockFilter)
 				mockFilter.On("Shutdown", tc.gentle).Return()
 				mockFilters[fmt.Sprintf("filter%d", i)] = mockFilter
@@ -488,10 +488,10 @@ func (suite *FilterManagerTestSuite) TestConcurrentAccess() {
 	var wg sync.WaitGroup
 	wg.Add(numGoroutines)
 
-	for i := 0; i < numGoroutines; i++ {
+	for i := range numGoroutines {
 		go func(goroutineID int) {
 			defer wg.Done()
-			for j := 0; j < numMessages; j++ {
+			for j := range numMessages {
 				msg := &wrp.Message{
 					Type:        wrp.SimpleEventMessageType,
 					Source:      fmt.Sprintf("device-%d-%d", goroutineID, j),

@@ -77,7 +77,7 @@ func TestNewNoAwsRole(t *testing.T) {
 	k, err := New(opts)
 	var kc = k.(*KinesisClient)
 
-	assert.Nil(err)
+	assert.NoError(err)
 	assert.NotNil(kc.svc)
 	assert.Equal(Endpoint, kc.endpoint)
 	assert.Equal(Region, kc.region)
@@ -93,7 +93,7 @@ func TestMissingRequiredOpt(t *testing.T) {
 	}
 
 	_, err := New(opts)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }
 
 func TestPutRecords(t *testing.T) {
@@ -115,7 +115,7 @@ func TestPutRecords(t *testing.T) {
 
 	failedRecordCount, err := kc.PutRecords(items, stream)
 	t.Log(err)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, 10, failedRecordCount)
 }
 
@@ -138,7 +138,7 @@ func TestPutRecordsError(t *testing.T) {
 
 	failedRecordCount, err := kc.PutRecords(items, stream)
 	t.Log(err)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 	assert.Equal(t, 0, failedRecordCount)
 }
 
@@ -156,7 +156,7 @@ func TestPutRecordsErrorNilOutput(t *testing.T) {
 
 	failedRecordCount, err := kc.PutRecords(items, stream)
 	t.Log(err)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 	assert.Equal(t, 0, failedRecordCount)
 }
 
@@ -174,5 +174,5 @@ func TestPutRecord(t *testing.T) {
 
 	_, err := kc.PutRecord(event, stream, partitionKey)
 	t.Log(err)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }

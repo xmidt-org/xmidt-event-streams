@@ -30,6 +30,7 @@ func GetTimeFromNumberString(val string, duration time.Duration) (time.Time, err
 			return invalidTime, err
 		}
 
+		//nolint:exhaustive // only seconds and microseconds are supported
 		switch duration {
 		case time.Second:
 			return time.Unix(t, 0).UTC(), nil

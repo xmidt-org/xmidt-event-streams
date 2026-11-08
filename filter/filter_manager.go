@@ -26,8 +26,6 @@ type BaseFilterManager struct {
 	filterMetrics     *FilterMetrics
 	wg                sync.WaitGroup
 	shutdown          chan struct{}
-	customPIDs        []string
-	disablePartnerIds bool
 	filterConfig      []FilterConfig
 	defaultQueueSize  int
 	defaultBatchSize  int

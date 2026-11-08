@@ -363,11 +363,11 @@ func (suite *StreamDispatcherTestSuite) TestSubmit_PanicRecovery() {
 			// Execute and verify panic behavior
 			if tc.expectPanic {
 				suite.Panics(func() {
-					suite.dispatcher.Submit(tc.messages)
+					_ = suite.dispatcher.Submit(tc.messages)
 				}, tc.description)
 			} else {
 				suite.NotPanics(func() {
-					suite.dispatcher.Submit(tc.messages)
+					_ = suite.dispatcher.Submit(tc.messages)
 				}, tc.description)
 			}
 		})
@@ -485,7 +485,7 @@ func (suite *StreamDispatcherTestSuite) TestSubmit_MetricsRecording() {
 			tc.setupMocks()
 
 			// Execute
-			suite.dispatcher.Submit(tc.messages)
+			_ = suite.dispatcher.Submit(tc.messages)
 
 			// Verify metrics recording based on expectation
 			mockDroppedMessage := suite.mockMetrics.DroppedMessage.(*MockCounter)

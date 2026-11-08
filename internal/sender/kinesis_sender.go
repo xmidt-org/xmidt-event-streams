@@ -7,8 +7,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"time"
+
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	"github.com/fogfish/opts"
 	"github.com/xmidt-org/retry"

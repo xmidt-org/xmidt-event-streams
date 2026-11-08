@@ -7,13 +7,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"time"
+
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	"github.com/xmidt-org/wrp-go/v3"
 )
-
-const ()
 
 func getKinesisRecords(ctx context.Context, expect int, k kinesis.KinesisClientAPI, sessionId string) ([]wrp.Message, error) {
 	var err error

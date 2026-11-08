@@ -129,7 +129,7 @@ func (c *KinesisClient) getClient() (KinesisAPI, time.Time, error) {
 			ctx,
 			config.WithRegion(c.region),
 			config.WithRetryMaxAttempts(3),
-			//config.WithCredentialsChainVerboseErrors(true),
+			// config.WithCredentialsChainVerboseErrors(true),
 			config.WithHTTPClient(
 				&http.Client{Timeout: 10 * time.Second},
 			),
@@ -223,7 +223,7 @@ func (c *KinesisClient) PutRecords(items []Item, stream string) (int, error) {
 
 		c.logger.Debug("putting events to kinesis", zap.Int("size", len(items)))
 
-		records := []types.PutRecordsRequestEntry{}
+		records := make([]types.PutRecordsRequestEntry, 0, len(batch))
 		for _, item := range batch {
 			entry := types.PutRecordsRequestEntry{
 				Data:         item.Item,

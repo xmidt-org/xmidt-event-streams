@@ -83,11 +83,10 @@ var FilterModule = fx.Module("filter",
 	fx.Provide(
 		func(in FilterManagerIn) (FilterManagerOut, error) {
 			kinesisProvider := kinesis.NewKinesisProvider()
-			var opt []opts.Option[sender.SenderFactory]
-			opt = append(opt,
+			opt := []opts.Option[sender.SenderFactory]{
 				sender.WithLogger(in.Logger),
 				sender.WithKinesisProvider(kinesisProvider),
-			)
+			}
 			senderProvider, err := sender.NewSenderFactory(opt)
 			if err != nil {
 				return FilterManagerOut{}, err
@@ -101,21 +100,19 @@ var FilterModule = fx.Module("filter",
 				return FilterManagerOut{}, err
 			}
 
-			var dispatcherOpts []opts.Option[DispatcherFactory]
-			dispatcherOpts = append(dispatcherOpts,
+			dispatcherOpts := []opts.Option[DispatcherFactory]{
 				WithQueueProvider(queueProvider),
 				WithSenderProvider(senderProvider),
 				WithDispatchLogger(in.Logger),
 				WithDispatchMetrics(in.FilterMetrics),
-			)
+			}
 
 			dispatcherProvider, err := NewDispatcherFactory(dispatcherOpts)
 			if err != nil {
 				return FilterManagerOut{}, err
 			}
 
-			var opts []opts.Option[BaseFilterManager]
-			opts = append(opts,
+			opts := []opts.Option[BaseFilterManager]{
 				WithDeliveryRetries(in.FilterManager.DeliveryRetries),
 				WithLogger(in.Logger),
 				WithFilterMetrics(in.FilterMetrics),
@@ -126,7 +123,7 @@ var FilterModule = fx.Module("filter",
 				WithDefaultWorkers(in.FilterManager.DefaultMaxWorkers),
 				WithDeliveryRetries(in.FilterManager.DeliveryRetries),
 				WithDispatchProvider(dispatcherProvider),
-			)
+			}
 
 			manager, err := New(opts)
 			if err != nil {

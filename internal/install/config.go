@@ -22,7 +22,10 @@ import (
 	"gopkg.in/dealancer/validate.v2"
 )
 
-const applicationName = "eventStream"
+const (
+	applicationName = "eventStream"
+	defaultNetwork  = "tcp"
+)
 
 // Config is the top level configuration for the notus service.  Everything
 // is contained in this structure or it will intentially cause a failure.
@@ -158,34 +161,34 @@ var defaultConfig = Config{
 	Servers: Servers{
 		Health: HealthServer{
 			HTTP: arrangehttp.ServerConfig{
-				Network: "tcp",
+				Network: defaultNetwork,
 				Address: ":8088",
 			},
 			Path: HealthPath("/"),
 		},
 		Metrics: MetricsServer{
 			HTTP: arrangehttp.ServerConfig{
-				Network: "tcp",
+				Network: defaultNetwork,
 				Address: "127.0.0.1:9361",
 			},
 			Path: MetricsPath("/metrics"),
 		},
 		Pprof: PprofServer{
 			HTTP: arrangehttp.ServerConfig{
-				Network: "tcp",
+				Network: defaultNetwork,
 				Address: "127.0.0.1:9999",
 			},
 			Path: arrangepprof.DefaultPathPrefix,
 		},
 		Primary: PrimaryServer{
 			HTTP: arrangehttp.ServerConfig{
-				Network: "tcp",
+				Network: defaultNetwork,
 				Address: "127.0.0.1:8080",
 			},
 		},
 		Alternate: PrimaryServer{
 			HTTP: arrangehttp.ServerConfig{
-				Network: "tcp",
+				Network: defaultNetwork,
 				Address: "127.0.0.1:9090",
 			},
 		},
@@ -214,9 +217,7 @@ var defaultConfig = Config{
 		IsBasic: true,
 		// dummy default values for testing & local development
 		Basic: auth.Basic{
-			// nolint:gosec
 			Username: "eventstream",
-			// nolint:gosec
 			Password: "eventstream-password",
 		},
 		Jwt: auth.Jwt{

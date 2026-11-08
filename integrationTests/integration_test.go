@@ -82,7 +82,7 @@ func postWrpEvent(event wrp.Message) ([]byte, error) {
 
 func postToEndpoint(url string, body []byte) ([]byte, error) {
 	fmt.Printf("posting to %s body len %d\n", url, len(body))
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, url, bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Print(err.Error())
 		return nil, err
@@ -133,8 +133,6 @@ type aTest struct {
 	outputExpected   bool
 	expectedHttpCode int
 	item             *item
-	api              string
-	deviceId         string
 }
 
 func runIt(t *testing.T, tc aTest) {
@@ -215,10 +213,10 @@ func runIt(t *testing.T, tc aTest) {
 		require.NoError(err)
 	}
 
-	max, err := time.ParseDuration(envDefault("INTEGRATION_TEST_MAXWAIT", "30s"))
+	maxWait, err := time.ParseDuration(envDefault("INTEGRATION_TEST_MAXWAIT", "30s"))
 	require.NoError(err)
 
-	ctx, cancel := context.WithTimeout(context.Background(), max)
+	ctx, cancel := context.WithTimeout(context.Background(), maxWait)
 	defer cancel()
 
 	time.Sleep(500 * time.Millisecond)

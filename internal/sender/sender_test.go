@@ -136,7 +136,7 @@ func (suite *SenderTestSuite) TestParseDestType_Errors() {
 
 func (suite *SenderTestSuite) TestDestTypeConstants() {
 	// Test that DestType constants have expected values
-	suite.Equal(DestType(0), Kinesis, "Kinesis constant should have value 0")
+	suite.Equal(Kinesis, DestType(0), "Kinesis constant should have value 0")
 }
 
 func (suite *SenderTestSuite) TestNewSenderFactory_Success() {

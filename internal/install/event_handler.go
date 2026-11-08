@@ -5,6 +5,7 @@ package install
 
 import (
 	"fmt"
+
 	"github.com/xmidt-org/xmidt-event-streams/filter"
 	"github.com/xmidt-org/xmidt-event-streams/internal/event"
 

@@ -69,9 +69,9 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 	case "application/json":
 		format = wrp.JSON
 	default:
-		//return a 415
+		// return a 415
 		response.WriteHeader(http.StatusUnsupportedMediaType)
-		response.Write([]byte("Invalid Content-Type header. Expected application/msgpack or application/json.\n"))
+		_, _ = response.Write([]byte("Invalid Content-Type header. Expected application/msgpack or application/json.\n"))
 		h.logger.Debug("Invalid Content-Type header. Expected application/msgpack or application/json.", zap.String("content-type", contentType))
 		return
 	}
@@ -82,7 +82,7 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 	if int32(0) < h.maxOutstanding && h.maxOutstanding < outstanding {
 		// return a 503
 		response.WriteHeader(http.StatusServiceUnavailable)
-		response.Write([]byte("Incoming queue is full.\n"))
+		_, _ = response.Write([]byte("Incoming queue is full.\n"))
 		h.logger.Error("Incoming queue is full.\n")
 		return
 	}
@@ -97,7 +97,7 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 	if len(payload) == 0 {
 		h.logger.Error("Empty payload.")
 		response.WriteHeader(http.StatusBadRequest)
-		response.Write([]byte("Empty payload.\n"))
+		_, _ = response.Write([]byte("Empty payload.\n"))
 		return
 	}
 
@@ -109,10 +109,10 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 		// return a 400
 		response.WriteHeader(http.StatusBadRequest)
 		if err != nil {
-			response.Write([]byte("Invalid payload format.\n"))
+			_, _ = response.Write([]byte("Invalid payload format.\n"))
 			h.logger.Debug("Invalid payload format.")
 		} else {
-			response.Write([]byte("Invalid MessageType.\n"))
+			_, _ = response.Write([]byte("Invalid MessageType.\n"))
 			h.logger.Debug("Invalid MessageType.")
 		}
 		return
@@ -121,9 +121,9 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 	err = wrp.UTF8(msg)
 	if err != nil {
 		// return a 400
-		//h.metrics.InvalidCount.Add(1.0)
+		// h.metrics.InvalidCount.Add(1.0)
 		response.WriteHeader(http.StatusBadRequest)
-		response.Write([]byte("Strings must be UTF-8.\n"))
+		_, _ = response.Write([]byte("Strings must be UTF-8.\n"))
 		h.logger.Debug("Strings must be UTF-8.")
 		return
 	}
@@ -132,30 +132,22 @@ func (h *RequestHandler) ServeHTTP(response http.ResponseWriter, request *http.R
 
 	// return a 202
 	response.WriteHeader(http.StatusAccepted)
-	response.Write([]byte("Request placed on to queue.\n"))
+	_, _ = response.Write([]byte("Request placed on to queue.\n"))
 
 	h.logger.Debug("event passed to senders.", zap.Any("event", msg))
 }
 
 func (h *RequestHandler) fixWrp(msg *wrp.Message) *wrp.Message {
 	// "Fix" the WRP if needed.
-	var reason string
-
 	// Default to "application/json" if there is no content type, otherwise
 	// use the one the source specified.
 	if msg.ContentType == "" {
 		msg.ContentType = wrp.MimeTypeJson
-		reason = emptyContentTypeReason
 	}
 
 	// Ensure there is a transaction id even if we make one up
 	if msg.TransactionUUID == "" {
 		msg.TransactionUUID = uuid.NewV4().String()
-		if reason == "" {
-			reason = emptyUUIDReason
-		} else {
-			reason = bothEmptyReason
-		}
 	}
 
 	return msg

@@ -16,25 +16,25 @@ func TestGetBatch(t *testing.T) {
 	items := []string{}
 	batchOfItems, more := GetBatch(0, batchSize, items)
 	assert.False(t, more)
-	assert.Equal(t, 0, len(batchOfItems))
+	assert.Empty(t, batchOfItems)
 
 	items = []string{"a", "b", "c", "d"}
 	batchOfItems, more = GetBatch(0, batchSize, items)
 	assert.False(t, more)
-	assert.Equal(t, 4, len(batchOfItems))
+	assert.Len(t, batchOfItems, 4)
 
 	items = []string{"a", "b", "c", "d", "e"}
 	batchOfItems, more = GetBatch(0, batchSize, items)
 	assert.False(t, more)
-	assert.Equal(t, 5, len(batchOfItems))
+	assert.Len(t, batchOfItems, 5)
 
 	items = []string{"a", "b", "c", "d", "e", "f"}
 	batchOfItems, more = GetBatch(0, batchSize, items)
 	assert.True(t, more)
-	assert.Equal(t, 5, len(batchOfItems))
+	assert.Len(t, batchOfItems, 5)
 	batchOfItems, more = GetBatch(0+batchSize, batchSize, items)
 	assert.False(t, more)
-	assert.Equal(t, 1, len(batchOfItems))
+	assert.Len(t, batchOfItems, 1)
 }
 
 func TestGetLargeBatch(t *testing.T) {
@@ -44,34 +44,34 @@ func TestGetLargeBatch(t *testing.T) {
 	items := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"}
 	batchOfItems, more := GetBatch(start, batchSize, items)
 	assert.True(t, more)
-	assert.Equal(t, 5, len(batchOfItems))
+	assert.Len(t, batchOfItems, 5)
 
 	start += batchSize
 	batchOfItems, more = GetBatch(start, batchSize, items)
 	assert.True(t, more)
-	assert.Equal(t, 5, len(batchOfItems))
+	assert.Len(t, batchOfItems, 5)
 
 	start += batchSize
 	batchOfItems, more = GetBatch(start, batchSize, items)
 	assert.False(t, more)
-	assert.Equal(t, 1, len(batchOfItems))
+	assert.Len(t, batchOfItems, 1)
 }
 
 func TestGetBatches100Items(t *testing.T) {
 	batchSize := 25
 
-	items := []string{}
+	items := make([]string, 0, 100)
 
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		items = append(items, fmt.Sprintf("%d", i))
 	}
 
 	batches := GetBatches(batchSize, items)
-	assert.Equal(t, 4, len(batches))
-	assert.Equal(t, 25, len(batches[0]))
-	assert.Equal(t, 25, len(batches[1]))
-	assert.Equal(t, 25, len(batches[2]))
-	assert.Equal(t, 25, len(batches[3]))
+	assert.Len(t, batches, 4)
+	assert.Len(t, batches[0], 25)
+	assert.Len(t, batches[1], 25)
+	assert.Len(t, batches[2], 25)
+	assert.Len(t, batches[3], 25)
 }
 
 func TestGetBatchesEmptyItems(t *testing.T) {
@@ -80,7 +80,7 @@ func TestGetBatchesEmptyItems(t *testing.T) {
 	items := []string{}
 
 	batches := GetBatches(batchSize, items)
-	assert.Equal(t, 0, len(batches))
+	assert.Empty(t, batches)
 }
 
 func TestGetBatchesLessThanOne(t *testing.T) {
@@ -89,8 +89,8 @@ func TestGetBatchesLessThanOne(t *testing.T) {
 	items := []string{"a", "b", "c", "d"}
 
 	batches := GetBatches(batchSize, items)
-	assert.Equal(t, 1, len(batches))
-	assert.Equal(t, 4, len(batches[0]))
+	assert.Len(t, batches, 1)
+	assert.Len(t, batches[0], 4)
 }
 
 func TestGetBatchesExactlyOne(t *testing.T) {
@@ -99,8 +99,8 @@ func TestGetBatchesExactlyOne(t *testing.T) {
 	items := []string{"a", "b", "c", "d", "e"}
 
 	batches := GetBatches(batchSize, items)
-	assert.Equal(t, 1, len(batches))
-	assert.Equal(t, 5, len(batches[0]))
+	assert.Len(t, batches, 1)
+	assert.Len(t, batches[0], 5)
 }
 
 func TestGetBatchesOneOver(t *testing.T) {
@@ -109,7 +109,7 @@ func TestGetBatchesOneOver(t *testing.T) {
 	items := []string{"a", "b", "c", "d", "e", "f"}
 
 	batches := GetBatches(batchSize, items)
-	assert.Equal(t, 2, len(batches))
-	assert.Equal(t, 5, len(batches[0]))
-	assert.Equal(t, 1, len(batches[1]))
+	assert.Len(t, batches, 2)
+	assert.Len(t, batches[0], 5)
+	assert.Len(t, batches[1], 1)
 }

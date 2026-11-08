@@ -11,8 +11,6 @@ import (
 	"golang.org/x/sync/semaphore"
 
 	"github.com/xmidt-org/wrp-go/v3"
-	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
-	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 )
 
 type Filter interface {
@@ -22,7 +20,7 @@ type Filter interface {
 
 type BaseFilter struct {
 	id string
-	//endpoints []Endpoint
+	// endpoints []Endpoint
 
 	streamVersion    string
 	eventMatchers    []*regexp.Regexp
@@ -35,10 +33,7 @@ type BaseFilter struct {
 	batchSize        int
 	queueSize        int
 	logger           *zap.Logger
-	mutex            sync.RWMutex
 	dispatcher       Dispatcher
-	queue            queue.MyQueue[*wrp.Message]
-	destType         sender.DestType
 }
 
 // Shutdown causes the filter to stop its activities either gently or

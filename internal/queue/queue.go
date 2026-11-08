@@ -77,7 +77,7 @@ func NewQueue[T any](cfg QueueConfig, t *Telemetry, logger *zap.Logger, batchSub
 		return nil, errors.New("telemetry is required")
 	}
 
-	if batchSubmitter == nil || (reflect.ValueOf(batchSubmitter).Kind() == reflect.Ptr && reflect.ValueOf(batchSubmitter).IsNil()) {
+	if batchSubmitter == nil || (reflect.ValueOf(batchSubmitter).Kind() == reflect.Pointer && reflect.ValueOf(batchSubmitter).IsNil()) {
 		return nil, errors.New("batchSubmitter is required")
 	}
 

@@ -16,7 +16,7 @@ type HandlerIn struct {
 	Logger         *zap.Logger
 	RequestHandler RequestHandler
 	EventHandler   event.EventHandler
-	//Metrics        *event.RequestHandlerMetrics
+	// Metrics        *event.RequestHandlerMetrics
 }
 
 type HandlerOut struct {
@@ -27,18 +27,16 @@ type HandlerOut struct {
 var HandlerModule = fx.Module("request_handler",
 	fx.Provide(
 		func(in HandlerIn) (HandlerOut, error) {
-			var opts []opts.Option[event.RequestHandler]
-
 			eventHandlerImpl := in.EventHandler.(*event.WrpEventHandler)
 			if eventHandlerImpl.Logger == nil {
 				in.Logger.Warn("eventHandlerImpl.Logger is nil")
 			}
 
-			opts = append(opts,
-				//event.WithMaxOutstandingWorkers(in.RequestHandler.MaxOutstanding),
+			opts := []opts.Option[event.RequestHandler]{
+				// event.WithMaxOutstandingWorkers(in.RequestHandler.MaxOutstanding),
 				event.WithLogger(in.Logger),
 				event.WithEventHandler(in.EventHandler),
-			)
+			}
 
 			h, err := event.New(opts)
 

@@ -5,8 +5,9 @@ package sender
 
 import (
 	"fmt"
-	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 	"strings"
+
+	"github.com/xmidt-org/xmidt-event-streams/internal/kinesis"
 
 	"github.com/fogfish/opts"
 	"github.com/xmidt-org/wrp-go/v3"
@@ -64,7 +65,7 @@ var (
 func (c *SenderFactory) checkRequired() error {
 	return opts.Required(c,
 		WithLogger(nil),
-		//WithKinesisProvider(kinesis.KinesisProvider(nil)),
+		// WithKinesisProvider(kinesis.KinesisProvider(nil)),
 	)
 }
 

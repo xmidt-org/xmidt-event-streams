@@ -5,6 +5,7 @@ package filter
 
 import (
 	"errors"
+
 	"github.com/xmidt-org/xmidt-event-streams/internal/queue"
 	"github.com/xmidt-org/xmidt-event-streams/internal/sender"
 
@@ -82,11 +83,9 @@ func (d *StreamDispatcher) Submit(msgs []*wrp.Message) error {
 }
 
 func (d *StreamDispatcher) submitBatch(stream string, sender sender.Sender, msgs []*wrp.Message) error {
-	var err error = nil
-
 	failedRecordCount, err := sender.OnEvent(msgs, stream)
 
-	reason := "no_err"
+	var reason string
 	l := d.logger
 	if err != nil {
 		reason = "send_error"

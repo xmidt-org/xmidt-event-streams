@@ -205,7 +205,7 @@ func (suite *QueueTestSuite) TestAddItem() {
 		queue.AddItem(item)
 
 		myQueue := queue.(*MyQueue[TestItem])
-		suite.Equal(1, len(myQueue.items))
+		suite.Len(myQueue.items, 1)
 	})
 
 	suite.T().Run("dropped_when_full", func(t *testing.T) {
@@ -226,7 +226,7 @@ func (suite *QueueTestSuite) TestAddItem() {
 		queue.AddItem(item2)
 
 		myQueue := queue.(*MyQueue[TestItem])
-		suite.Equal(1, len(myQueue.items)) // Only first item should be in channel
+		suite.Len(myQueue.items, 1) // Only first item should be in channel
 	})
 }
 
@@ -260,12 +260,12 @@ func (suite *QueueTestSuite) TestEmpty() {
 		queue.AddItem(TestItem{ID: 2, Data: "test2"})
 
 		myQueue := queue.(*MyQueue[TestItem])
-		suite.Equal(2, len(myQueue.items))
+		suite.Len(myQueue.items, 2)
 
 		// Empty the queue - telemetry calls are complex to mock, just test behavior
 		queue.Empty()
 
-		suite.Equal(0, len(myQueue.items))
+		suite.Empty(myQueue.items)
 	})
 }
 
@@ -275,7 +275,7 @@ func (suite *QueueTestSuite) TestClose() {
 	}
 
 	queue, err := NewQueue(config, suite.telemetry, suite.logger, suite.submitter)
-	suite.NoError(err)
+	suite.Require().NoError(err)
 
 	queue.Close()
 
@@ -335,7 +335,7 @@ func (suite *QueueTestSuite) TestBatchSizeLimitReached() {
 		})).Return(nil).Once()
 
 		queue, err := NewQueue(config, suite.telemetry, suite.logger, suite.submitter)
-		suite.NoError(err)
+		suite.Require().NoError(err)
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
@@ -373,7 +373,7 @@ func (suite *QueueTestSuite) TestBatchSizeLimitNotReached() {
 		}
 
 		queue, err := NewQueue(config, suite.telemetry, suite.logger, suite.submitter)
-		suite.NoError(err)
+		suite.Require().NoError(err)
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()

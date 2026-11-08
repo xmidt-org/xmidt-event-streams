@@ -32,7 +32,7 @@ type BaseFilterFactory struct {
 	DeliveryRetries int
 
 	// Time in between delivery retries
-	//DeliveryInterval time.Duration
+	// DeliveryInterval time.Duration
 
 	// filter metrics
 	Metrics *FilterMetrics
@@ -108,7 +108,7 @@ func (ff *BaseFilterFactory) configureQueue(f *BaseFilter, cfg FilterConfig) err
 }
 
 func (ff *BaseFilterFactory) configureDispatcher(f *BaseFilter, cfg FilterConfig) error {
-	streams := []Stream{}
+	streams := make([]Stream, 0, 1+len(cfg.AltStreams))
 	streams = append(streams, cfg.Stream)
 	streams = append(streams, cfg.AltStreams...)
 
